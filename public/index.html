@@ -341,7 +341,7 @@ label{display:block;font-size:12.5px;font-weight:600;color:var(--mut);margin:0 0
   <!-- STATS -->
   <section class="view" id="v-stats">
     <h1 class="h1">Your numbers</h1>
-    <p class="sub" id="statsSub">Pulled from Instagram every morning.</p>
+    <p class="sub" id="statsSub">Pulled from Instagram every Monday and Thursday. Tap Refresh now for today’s.</p>
     <div id="statsBody"></div>
   </section>
 
@@ -677,7 +677,7 @@ function localReply(q,p){
 function renderStats(){
   const a=acct(),st=a?.stats,box=$("#statsBody");
   if(!a){box.innerHTML=`<div class="empty">Add an account in Settings first.</div>`;return}
-  if(!a.connected){box.innerHTML=`<div class="card"><h3>Connect @${esc(a.handle)}</h3><p class="cap">Log in with Instagram once. After that your numbers refresh every morning.</p>
+  if(!a.connected){box.innerHTML=`<div class="card"><h3>Connect @${esc(a.handle)}</h3><p class="cap">Log in with Instagram once. After that your numbers refresh twice a week on their own.</p>
     <a class="btn w" href="/api/ig/start">Connect Instagram</a>${S.config.ig?"":'<p class="hint">The Instagram app keys aren\'t set in Netlify yet.</p>'}</div>`;return}
   if(!st){box.innerHTML=`<div class="card"><div class="loading"><span class="spin"></span>No numbers yet.</div><button class="btn w" id="refreshNow">Fetch now</button>${a.lastError?`<p class="hint" style="color:var(--warn)">${esc(a.lastError)}</p>`:""}</div>`;return}
   $("#statsSub").textContent=`@${a.handle} · updated ${ago(st.fetched)} · averages from your last ${st.reelsCounted||0} reels`;
