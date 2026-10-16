@@ -4,7 +4,7 @@ A private desk for brand deals. Paste a brand's message and get:
 
 - a reply in your own voice, written from your past replies,
 - a quote priced from your rate card (ad rights, exclusivity, whitelisting, long-term rates),
-- a media kit with your **live Instagram numbers**, refreshed every morning, as a link or a PDF.
+- a media kit with your **live Instagram numbers**, refreshed twice a week, as a link or a PDF.
 
 Free to run: Netlify (hosting, functions, storage), Instagram's official API, Gemini's free tier.
 
