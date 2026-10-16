@@ -1,0 +1,774 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Deal Desk</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#F1F2F4">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Deal Desk">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='18' fill='%230E0F11'/%3E%3Ccircle cx='32' cy='32' r='9' fill='%2322C55E'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F1F2F4; --card:#FFFFFF; --ink:#0E0F11; --ink-2:#2B2D31; --mut:#6B6F76; --faint:#A0A4AB; --line:#E7E8EB; --soft:#F6F7F8;
+  --green:#1FB955; --green-ink:#0B6B2F; --green-soft:#E6F7EC; --warn:#B4441C; --warn-soft:#FCEDE6; --blue:#1F5BD8;
+  --r-xl:28px; --r-lg:22px; --r-md:16px; --r-sm:12px;
+  --sh:0 1px 2px rgba(14,15,17,.04),0 8px 24px -12px rgba(14,15,17,.12);
+  --sans:"Inter",system-ui,-apple-system,sans-serif; --disp:"Inter Tight","Inter",system-ui,sans-serif;
+  --out:cubic-bezier(.16,1,.3,1); --spring:cubic-bezier(.34,1.56,.64,1);
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;background:var(--bg);color:var(--ink)}
+body{font-family:var(--sans);font-size:15px;line-height:1.45;-webkit-font-smoothing:antialiased;min-height:100dvh;overflow-x:clip}
+button,input,textarea,select{font:inherit;color:inherit}
+button{cursor:pointer;border:0;background:none;padding:0}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--blue);outline-offset:2px;border-radius:10px}
+.hide{display:none!important}
+
+/* ---------- layout ---------- */
+.app{max-width:1120px;margin:0 auto;padding:calc(env(safe-area-inset-top) + 14px) 16px calc(env(safe-area-inset-bottom) + 110px)}
+.top{display:flex;align-items:center;gap:10px;margin-bottom:18px}
+.avatar{width:44px;height:44px;border-radius:50%;object-fit:cover;background:#DADCE0;flex:none;display:grid;place-items:center;font-family:var(--disp);font-weight:700;color:#fff;box-shadow:0 0 0 3px #fff}
+.acct{display:flex;align-items:center;gap:6px;height:40px;padding:0 12px 0 14px;min-width:0;max-width:46vw;border-radius:99px;background:var(--card);box-shadow:var(--sh);font-weight:600;font-size:14px}
+.acct svg{width:14px;height:14px;color:var(--mut);flex:none}
+.acct span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.spacer{flex:1}
+.pillstat{display:flex;align-items:center;gap:9px;height:40px;padding:0 13px;flex:none;border-radius:99px;background:var(--green);color:#fff;font-weight:600;font-size:13.5px;
+  box-shadow:0 0 0 3px rgba(31,185,85,.18),0 8px 22px -8px rgba(31,185,85,.7);font-variant-numeric:tabular-nums;white-space:nowrap}
+.pillstat span{display:inline-flex;align-items:center;gap:4px}
+.pillstat svg{width:14px;height:14px}
+.pillstat.off{background:var(--card);color:var(--mut);box-shadow:var(--sh)}
+@media(max-width:420px){.pillstat .erx{display:none}.top{gap:8px}.avatar{width:40px;height:40px}}
+.iconbtn{width:40px;height:40px;border-radius:50%;background:var(--card);display:grid;place-items:center;box-shadow:var(--sh);flex:none}
+.iconbtn svg{width:18px;height:18px}
+
+.h1{font-family:var(--disp);font-weight:700;font-size:34px;line-height:1.05;letter-spacing:-.03em;margin:4px 2px 4px}
+.sub{color:var(--mut);margin:0 2px 18px;font-size:14.5px}
+.card{background:var(--card);border-radius:var(--r-xl);padding:20px;box-shadow:var(--sh)}
+.card + .card{margin-top:12px}
+.card h3{margin:0 0 4px;font-family:var(--disp);font-size:18px;letter-spacing:-.02em}
+.card .cap{color:var(--mut);font-size:13px;margin:0 0 14px}
+.eyebrow{font-size:11.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--faint)}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:52px;padding:0 22px;border-radius:99px;background:var(--ink);color:#fff;font-weight:600;font-size:15px;
+  transition:transform .3s var(--spring),opacity .2s;white-space:nowrap;text-decoration:none}
+.btn:active{transform:scale(.96)}
+.btn[disabled]{opacity:.4;pointer-events:none}
+.btn.w{width:100%}
+.btn.ghost{background:var(--soft);color:var(--ink)}
+.btn.line{background:transparent;box-shadow:inset 0 0 0 1.5px var(--line);color:var(--ink)}
+.btn.sm{height:40px;padding:0 16px;font-size:13.5px}
+.btn.green{background:var(--green)}
+.btn svg{width:17px;height:17px}
+.row{display:flex;gap:8px;flex-wrap:wrap}
+.row > .btn{flex:1}
+
+textarea,input,select{width:100%;border:1.5px solid var(--line);background:var(--soft);border-radius:var(--r-md);padding:13px 14px;font-size:16px;outline:none;transition:border-color .2s,background .2s}
+textarea:focus,input:focus,select:focus{border-color:var(--ink);background:#fff}
+textarea{resize:vertical;min-height:120px;line-height:1.5}
+label{display:block;font-size:12.5px;font-weight:600;color:var(--mut);margin:0 0 6px 2px}
+.f{margin-bottom:12px}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+@media(max-width:420px){.g3{grid-template-columns:1fr 1fr}}
+.hint{font-size:12.5px;color:var(--mut);margin-top:6px;line-height:1.5}
+
+/* paste hero */
+.paste{position:relative;overflow:hidden}
+.paste textarea{min-height:170px;background:var(--soft);border-color:transparent;font-size:15.5px}
+.paste textarea:focus{background:#fff;border-color:var(--ink)}
+.stack{position:relative;height:120px;margin:-4px 0 10px}
+.stack i{position:absolute;top:8px;width:76px;height:96px;border-radius:16px;background:#DDE0E4 center/cover;border:3px solid #fff;box-shadow:0 10px 24px -10px rgba(0,0,0,.35);transition:transform .6s var(--spring)}
+.stack i:nth-child(1){left:calc(50% - 98px);transform:rotate(-10deg)}
+.stack i:nth-child(2){left:calc(50% - 38px);top:0;z-index:2;transform:rotate(1deg)}
+.stack i:nth-child(3){left:calc(50% + 22px);transform:rotate(11deg)}
+.paste:hover .stack i:nth-child(1){transform:rotate(-14deg) translateX(-6px)}
+.paste:hover .stack i:nth-child(3){transform:rotate(15deg) translateX(6px)}
+.powered{display:flex;align-items:center;gap:6px;justify-content:center;font-size:12px;color:var(--mut);margin-top:10px}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--green)}
+.dot.off{background:var(--faint)}
+
+/* deal list */
+.list{display:grid;gap:10px}
+.list>*,.deskgrid>*,.dealgrid>*,.col>*,.card{min-width:0}
+.deal{display:flex;align-items:center;gap:12px;background:var(--card);border-radius:var(--r-lg);padding:14px 16px;box-shadow:var(--sh);text-align:left;width:100%;transition:transform .3s var(--spring)}
+.deal:active{transform:scale(.985)}
+.deal .mono{width:44px;height:44px;border-radius:14px;display:grid;place-items:center;font-family:var(--disp);font-weight:700;color:#fff;flex:none}
+.deal .t{flex:1;min-width:0}
+.deal .t b{display:block;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.deal .t span{display:block;color:var(--mut);font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.deal .amt{font-family:var(--disp);font-weight:700;font-variant-numeric:tabular-nums}
+.empty{padding:28px 18px;text-align:center;color:var(--mut);border:1.5px dashed #D5D8DD;border-radius:var(--r-lg)}
+
+/* chips */
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{display:inline-flex;align-items:center;gap:6px;min-height:32px;padding:6px 12px;border-radius:16px;background:var(--soft);font-size:13px;font-weight:500;line-height:1.35;max-width:100%}
+.chip.dark{background:var(--ink);color:#fff}
+.chip.green{background:var(--green-soft);color:var(--green-ink)}
+.chip.warn{background:var(--warn-soft);color:var(--warn)}
+.flags{margin:12px 0 0;padding:0;list-style:none;display:grid;gap:6px}
+.flags li{display:flex;gap:8px;font-size:13.5px;color:var(--warn);background:var(--warn-soft);padding:9px 12px;border-radius:12px}
+
+/* quote lines */
+.qline{display:grid;grid-template-columns:auto 1fr 120px;grid-template-areas:"step label price";gap:8px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)}
+.qline:last-of-type{border-bottom:0}
+.qline .step{grid-area:step}.qline>input{grid-area:label}.qline>.money{grid-area:price}
+@media(max-width:560px){.qline{grid-template-columns:auto 1fr;grid-template-areas:"label label" "step price"}}
+.step{display:flex;align-items:center;background:var(--soft);border-radius:99px;height:36px}
+.step button{width:32px;height:36px;font-size:18px;color:var(--mut)}
+.step b{min-width:18px;text-align:center;font-variant-numeric:tabular-nums}
+.qline > *{min-width:0}
+.qline input{padding:9px 11px;font-size:14.5px;border-radius:12px;min-width:0}
+.qline .price{text-align:right}
+.add{display:flex;align-items:center;gap:10px;padding:12px 0;border-top:1px solid var(--line)}
+.add .lbl{flex:1;font-size:14px}
+.add .lbl small{display:block;color:var(--mut);font-size:12px}
+.add select{width:auto;padding:7px 10px;font-size:13.5px;border-radius:10px}
+.sw{position:relative;width:46px;height:28px;border-radius:99px;background:#D7D9DD;flex:none;transition:background .3s}
+.sw::after{content:"";position:absolute;left:3px;top:3px;width:22px;height:22px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.2);transition:transform .35s var(--spring)}
+.sw[aria-checked="true"]{background:var(--green)}
+.sw[aria-checked="true"]::after{transform:translateX(18px)}
+.total{display:flex;align-items:flex-end;justify-content:space-between;margin-top:14px;padding-top:14px;border-top:2px solid var(--ink)}
+.total .k{font-weight:600}
+.total .v{font-family:var(--disp);font-size:36px;font-weight:800;letter-spacing:-.04em;line-height:1;font-variant-numeric:tabular-nums}
+.budget{font-size:13px;margin-top:8px;color:var(--mut)}
+.budget b{color:var(--ink)}
+
+/* reply */
+.reply{min-height:240px;background:#fff;font-size:15px}
+.seg{display:inline-flex;background:var(--soft);border-radius:99px;padding:4px;gap:2px;margin-bottom:10px}
+.seg button{height:32px;padding:0 14px;border-radius:99px;font-size:13px;font-weight:600;color:var(--mut)}
+.seg button[aria-pressed="true"]{background:#fff;color:var(--ink);box-shadow:var(--sh)}
+
+/* kit preview */
+.kitprev{position:relative;border-radius:var(--r-lg);background:linear-gradient(160deg,#101113,#24262B);color:#fff;padding:18px;overflow:hidden;margin-bottom:12px}
+.kitprev .who{display:flex;align-items:center;gap:10px}
+.kitprev .who img,.kitprev .who .avatar{width:40px;height:40px;box-shadow:none}
+.kitprev b{font-family:var(--disp);font-size:17px}
+.kitprev small{display:block;color:#A9ADB4;font-size:12.5px}
+.kitprev .nums{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:14px}
+.kitprev .nums div{background:rgba(255,255,255,.07);border-radius:14px;padding:10px}
+.kitprev .nums b{display:block;font-size:19px;font-variant-numeric:tabular-nums}
+.kitprev .nums span{font-size:11px;color:#A9ADB4}
+
+/* stats */
+.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+@media(min-width:720px){.stats{grid-template-columns:repeat(4,1fr)}}
+.stat{background:var(--card);border-radius:var(--r-lg);padding:16px;box-shadow:var(--sh)}
+.stat .v{font-family:var(--disp);font-size:28px;font-weight:800;letter-spacing:-.04em;font-variant-numeric:tabular-nums}
+.stat .k{color:var(--mut);font-size:12.5px;margin-top:2px}
+.stat.hero{background:var(--green);color:#fff}
+.stat.hero .k{color:rgba(255,255,255,.85)}
+.bars{display:grid;gap:9px}
+.bar{display:grid;grid-template-columns:92px 1fr 46px;gap:10px;align-items:center;font-size:13.5px}
+.bar i{display:block;height:10px;border-radius:99px;background:var(--soft);overflow:hidden}
+.bar i b{display:block;height:100%;border-radius:99px;background:var(--ink);transform-origin:left;animation:grow .9s var(--out) both}
+@keyframes grow{from{transform:scaleX(0)}}
+.bar span:last-child{text-align:right;color:var(--mut);font-variant-numeric:tabular-nums}
+.reels{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.reel{position:relative;aspect-ratio:9/14;border-radius:16px;background:#DDE0E4 center/cover;overflow:hidden;text-decoration:none}
+.reel span{position:absolute;left:8px;bottom:8px;display:inline-flex;align-items:center;gap:4px;height:24px;padding:0 8px;border-radius:99px;background:rgba(0,0,0,.55);color:#fff;font-size:12px;font-weight:600;backdrop-filter:blur(8px)}
+.reel span svg{width:11px;height:11px}
+
+/* settings */
+.ratesgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media(min-width:720px){.ratesgrid{grid-template-columns:repeat(3,1fr)}}
+.money{position:relative}
+.money::before{content:"₹";position:absolute;left:13px;top:50%;transform:translateY(-50%);color:var(--mut);font-size:15px}
+.money input{padding-left:28px}
+.ex{background:var(--soft);border-radius:var(--r-md);padding:12px;margin-bottom:10px}
+.ex textarea{min-height:80px;background:#fff;font-size:14px}
+.ex .row{justify-content:flex-end}
+.tabs{display:flex;gap:6px;overflow-x:auto;margin:0 -16px 14px;padding:2px 16px;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex:none;height:38px;padding:0 16px;border-radius:99px;background:var(--card);box-shadow:var(--sh);font-size:13.5px;font-weight:600;color:var(--mut)}
+.tab[aria-pressed="true"]{background:var(--ink);color:#fff}
+
+/* nav */
+.nav{position:fixed;left:50%;bottom:calc(env(safe-area-inset-bottom) + 14px);transform:translateX(-50%);z-index:40;display:flex;align-items:center;gap:12px}
+.navpill{display:flex;gap:4px;padding:6px;border-radius:99px;background:rgba(255,255,255,.92);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);box-shadow:0 14px 34px -12px rgba(14,15,17,.28),0 0 0 1px rgba(14,15,17,.04)}
+.navpill button{display:flex;align-items:center;gap:7px;height:46px;padding:0 15px;border-radius:99px;color:var(--mut);font-weight:600;font-size:13.5px;transition:background .3s,color .3s}
+.navpill button svg{width:20px;height:20px}
+.navpill button[aria-selected="true"]{background:var(--soft);color:var(--ink)}
+.navpill button span{display:none}
+.navpill button[aria-selected="true"] span{display:inline}
+.fab{width:58px;height:58px;border-radius:50%;background:var(--ink);color:#fff;display:grid;place-items:center;box-shadow:0 14px 30px -10px rgba(14,15,17,.6);transition:transform .3s var(--spring)}
+.fab:active{transform:scale(.9)}
+.fab svg{width:24px;height:24px}
+
+/* views */
+.view{display:none}
+.view.on{display:block;animation:vin .5s var(--out)}
+@keyframes vin{from{opacity:0;transform:translateY(10px)}}
+@media(min-width:960px){
+  .dealgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;align-items:start}
+  .dealgrid .card + .card{margin-top:0}
+  .dealgrid .col{display:grid;gap:12px}
+  .deskgrid{display:grid;grid-template-columns:1.1fr .9fr;gap:16px;align-items:start}
+  .h1{font-size:40px}
+}
+.back{display:inline-flex;align-items:center;gap:6px;height:40px;padding:0 14px 0 10px;border-radius:99px;background:var(--card);box-shadow:var(--sh);font-weight:600;font-size:13.5px;margin-bottom:14px}
+.back svg{width:16px;height:16px}
+.brandtitle{font-family:var(--disp);font-weight:800;font-size:30px;letter-spacing:-.035em;line-height:1.05;border:0;background:none;padding:0;width:100%;outline:none}
+.loading{display:flex;align-items:center;gap:10px;color:var(--mut);font-size:14px;padding:6px 0}
+.spin{width:18px;height:18px;border-radius:50%;border:2.5px solid var(--line);border-top-color:var(--ink);animation:sp .8s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+.toast{position:fixed;left:50%;top:calc(env(safe-area-inset-top) + 12px);transform:translate(-50%,-160%);z-index:90;max-width:calc(100% - 32px);padding:12px 18px;border-radius:99px;background:var(--ink);color:#fff;font-size:14px;font-weight:500;transition:transform .55s var(--spring);text-align:center}
+.toast.on{transform:translate(-50%,0)}
+
+/* lock */
+.lock{min-height:100dvh;display:grid;place-items:center;padding:24px}
+.lock .card{width:100%;max-width:380px;text-align:center;padding:30px 24px}
+.lock .logo{width:64px;height:64px;border-radius:20px;background:var(--ink);display:grid;place-items:center;margin:0 auto 16px}
+.lock .logo i{width:18px;height:18px;border-radius:50%;background:var(--green);box-shadow:0 0 0 6px rgba(31,185,85,.25)}
+.lock h1{font-family:var(--disp);margin:0 0 4px;font-size:26px;letter-spacing:-.03em}
+.lock p{margin:0 0 18px;color:var(--mut)}
+.err{color:var(--warn);font-size:13.5px;min-height:20px;margin-top:8px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="toast" id="toast" role="status"></div>
+
+<!-- LOCK -->
+<section class="lock hide" id="lock">
+  <form class="card" id="lockForm">
+    <div class="logo"><i></i></div>
+    <h1>Deal Desk</h1>
+    <p>Your private desk for brand deals.</p>
+    <input type="password" id="pw" placeholder="Password" autocomplete="current-password" required>
+    <button class="btn w" style="margin-top:12px" type="submit">Open desk</button>
+    <div class="err" id="lockErr"></div>
+  </form>
+</section>
+
+<main class="app hide" id="app">
+  <header class="top">
+    <span id="topAvWrap" style="display:contents"></span>
+    <button class="acct" id="acctBtn" aria-label="Switch account"><span id="acctName">@—</span>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></button>
+    <div class="spacer"></div>
+    <div class="pillstat off" id="pillstat">Not connected</div>
+  </header>
+
+  <!-- DESK -->
+  <section class="view on" id="v-desk">
+    <div class="deskgrid">
+      <div>
+        <h1 class="h1" id="hello">Paste a brand message</h1>
+        <p class="sub" id="helloSub">You get a reply, a quote from your rate card and a media kit for exactly what they asked.</p>
+        <div class="card paste">
+          <div class="stack" id="stack" aria-hidden="true"><i></i><i></i><i></i></div>
+          <textarea id="msg" placeholder="Paste their DM or email here…"></textarea>
+          <button class="btn w" id="readBtn" style="margin-top:12px">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 5.6L19.5 10l-5.6 1.9L12 17.5l-1.9-5.6L4.5 10l5.6-1.4z"/></svg>
+            Read it and build my reply</button>
+          <div class="powered"><span class="dot" id="aiDot"></span><span id="aiNote">Reads with AI · prices from your rate card</span></div>
+        </div>
+      </div>
+      <div>
+        <div class="eyebrow" style="margin:22px 4px 10px">Recent deals</div>
+        <div class="list" id="deals"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DEAL -->
+  <section class="view" id="v-deal">
+    <button class="back" data-go="desk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>Desk</button>
+    <input class="brandtitle" id="dBrand" placeholder="Brand">
+    <p class="sub" id="dSummary" style="margin-top:6px"></p>
+    <div class="dealgrid">
+      <div class="col">
+        <div class="card">
+          <h3>They're asking for</h3>
+          <div class="chips" id="asks" style="margin-top:10px"></div>
+          <ul class="flags" id="flags"></ul>
+        </div>
+        <div class="card">
+          <h3>Your quote</h3>
+          <p class="cap">From your <span id="qAcct"></span> rate card. Tap anything to change it.</p>
+          <div id="lines"></div>
+          <button class="btn ghost sm" id="addLine" style="margin-top:8px">+ Add a line</button>
+          <div id="adds" style="margin-top:12px"></div>
+          <div class="g2" style="margin-top:10px">
+            <div class="f"><label for="disc">Discount %</label><input id="disc" inputmode="decimal" placeholder="0"></div>
+            <div class="f"><label for="override">Final total <span style="font-weight:400">optional</span></label><div class="money"><input id="override" inputmode="numeric" placeholder="Auto"></div></div>
+          </div>
+          <div class="total"><span class="k">Total</span><span class="v" id="total">₹0</span></div>
+          <div class="budget" id="budget"></div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card">
+          <h3>Reply to send</h3>
+          <div class="seg" role="group" style="margin-top:10px"><button aria-pressed="true" data-len="full">Full</button><button aria-pressed="false" data-len="short">Short DM</button></div>
+          <textarea class="reply" id="reply"></textarea>
+          <div class="loading hide" id="replyLoad"><span class="spin"></span>Writing it in your voice…</div>
+          <div class="row" style="margin-top:10px">
+            <button class="btn" id="copyReply"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="9" y="9" width="11" height="11" rx="3"/><path d="M5 15V6a2 2 0 0 1 2-2h8"/></svg>Copy reply</button>
+            <button class="btn ghost" id="rewrite">Rewrite</button>
+          </div>
+          <p class="hint">Copying adds your media kit link wherever the reply says [media kit link].</p>
+        </div>
+        <div class="card">
+          <h3>Media kit for this deal</h3>
+          <p class="cap">Your live numbers, your best reels and this proposal. Updates itself as your stats change.</p>
+          <div class="kitprev" id="kitprev"></div>
+          <div class="add" style="border-top:0;padding-top:0">
+            <div class="lbl">Include this quote<small>Off: just your kit, no prices</small></div>
+            <button class="sw" id="kitQuote" role="switch" aria-checked="true" aria-label="Include quote"></button>
+          </div>
+          <div class="g2">
+            <div class="f"><label for="valid">Quote valid for</label><input id="valid" value="14 days"></div>
+            <div class="f"><label for="timeline">Timeline</label><input id="timeline" placeholder="e.g. Live by 30 Oct"></div>
+          </div>
+          <div class="row">
+            <button class="btn" id="pdfBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg>Download PDF</button>
+            <button class="btn ghost" id="kitLink">Copy link</button>
+          </div>
+          <button class="btn line w sm" id="kitOpen" style="margin-top:8px">Open what the brand sees</button>
+        </div>
+        <button class="btn line w sm" id="delDeal" style="color:var(--warn)">Delete this deal</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <section class="view" id="v-stats">
+    <h1 class="h1">Your numbers</h1>
+    <p class="sub" id="statsSub">Pulled from Instagram every morning.</p>
+    <div id="statsBody"></div>
+  </section>
+
+  <!-- SETTINGS -->
+  <section class="view" id="v-settings">
+    <h1 class="h1">Settings</h1>
+    <p class="sub">Each account has its own rates, voice and media kit.</p>
+    <div class="tabs" id="setTabs"></div>
+    <div id="setBody"></div>
+  </section>
+</main>
+
+<nav class="nav hide" id="nav">
+  <div class="navpill" role="tablist">
+    <button role="tab" aria-selected="true" data-go="desk" aria-label="Desk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="5"/><path d="M4 10h16M10 4v16"/></svg><span>Desk</span></button>
+    <button role="tab" aria-selected="false" data-go="stats" aria-label="Numbers"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 19V11M12 19V5M19 19v-6"/></svg><span>Numbers</span></button>
+    <button role="tab" aria-selected="false" data-go="settings" aria-label="Settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h10M18 7h2M4 17h4M12 17h8"/><circle cx="16" cy="7" r="2.2"/><circle cx="10" cy="17" r="2.2"/></svg><span>Settings</span></button>
+  </div>
+  <button class="fab" data-go="new" aria-label="New brand message"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></button>
+</nav>
+
+<script>
+/* ================= state ================= */
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const ls={get(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch{return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch{}}};
+const inr=v=>"₹"+Math.round(+v||0).toLocaleString("en-IN");
+const compact=v=>{v=+v||0;if(!v)return "—";if(v>=1e7)return (v/1e7).toFixed(1).replace(/\.0$/,"")+"Cr";if(v>=1e5)return (v/1e5).toFixed(1).replace(/\.0$/,"")+"L";if(v>=1e3)return (v/1e3).toFixed(1).replace(/\.0$/,"")+"K";return String(v)};
+const ago=t=>{if(!t)return "never";const m=Math.round((Date.now()-t)/6e4);if(m<1)return "just now";if(m<60)return m+"m ago";const h=Math.round(m/60);if(h<24)return h+"h ago";return Math.round(h/24)+"d ago"};
+function toast(m,ms=2600){const t=$("#toast");t.textContent=m;t.classList.add("on");clearTimeout(toast.t);toast.t=setTimeout(()=>t.classList.remove("on"),ms)}
+async function api(path,opt={}){
+  const r=await fetch("/api/"+path,{credentials:"same-origin",headers:{"content-type":"application/json"},...opt,body:opt.body?JSON.stringify(opt.body):undefined});
+  if(r.status===401){showLock();throw new Error("locked")}
+  const d=await r.json().catch(()=>({}));if(!r.ok)throw new Error(d.error||"Something went wrong");return d;
+}
+
+let S={accounts:[],deals:[],config:{}};
+let ACT=ls.get("dd_acct","");
+let D=null;           // the deal being edited
+let LEN="full";
+
+const RATES=[["reel_collab","Collab reel"],["reel","Reel (non-collab)"],["story","Story / reshare"],["story_set","Story set (3+)"],
+ ["static_post","Static post"],["carousel","Carousel"],["ugc_video","UGC video"],["ugc_photo","UGC photo set"],
+ ["yt_dedicated","YouTube dedicated video"],["yt_integrated","YouTube integration"],["yt_short","YouTube Short"],["event_coverage","Event coverage"],["live","Instagram Live"]];
+const LABEL=Object.fromEntries(RATES);LABEL.other="Other";
+const acct=()=>S.accounts.find(a=>a.handle===ACT)||S.accounts[0]||null;
+
+/* ================= boot ================= */
+function showLock(){$("#lock").classList.remove("hide");$("#app").classList.add("hide");$("#nav").classList.add("hide")}
+$("#lockForm").addEventListener("submit",async e=>{
+  e.preventDefault();$("#lockErr").textContent="";
+  try{await api("login",{method:"POST",body:{password:$("#pw").value}});$("#pw").value="";await load()}
+  catch(err){if(err.message!=="locked")$("#lockErr").textContent=err.message}
+  if($("#app").classList.contains("hide"))$("#lockErr").textContent=$("#lockErr").textContent||"That password isn't right.";
+});
+async function load(){
+  S=await api("state");
+  if(!S.accounts.some(a=>a.handle===ACT))ACT=S.accounts[0]?.handle||"";
+  $("#lock").classList.add("hide");$("#app").classList.remove("hide");$("#nav").classList.remove("hide");
+  renderTop();renderDesk();
+  const q=new URLSearchParams(location.search);
+  if(q.get("connected")){ACT=q.get("connected");ls.set("dd_acct",ACT);toast("Connected @"+ACT+" — numbers are in");history.replaceState(null,"","/");renderTop();go("stats")}
+  if(q.get("igerror")){toast("Instagram: "+q.get("igerror"),5000);history.replaceState(null,"","/");go("settings")}
+}
+
+/* ================= top + nav ================= */
+function avatarHTML(a,cls="avatar"){
+  if(a?.connected&&a?.stats)return `<img class="${cls}" src="/api/img/${a.handle}/avatar" alt="" onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'${cls}',textContent:'${esc((a.profile?.name||a.handle||"?")[0].toUpperCase())}'}))">`;
+  return `<div class="${cls}" style="background:${tint(a?.handle)}">${esc(((a?.profile?.name||a?.handle||"?")[0]||"?").toUpperCase())}</div>`;
+}
+function tint(s){let h=0;for(const c of String(s||""))h=(h*31+c.charCodeAt(0))>>>0;return `hsl(${h%360} 55% 45%)`}
+function renderTop(){
+  const a=acct();
+  $("#topAvWrap").innerHTML=avatarHTML(a);
+  $("#acctName").textContent=a?"@"+a.handle:"Add an account";
+  const p=$("#pillstat"),st=a?.stats;
+  if(st){p.className="pillstat";p.innerHTML=`<span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="9" cy="8" r="3.5"/><path d="M3 20c.8-3.4 3.2-5.5 6-5.5s5.2 2.1 6 5.5"/></svg>${compact(st.followers)}</span><span><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>${compact(st.avgViews)}</span><span class="erx">${st.er||0}%</span>`}
+  else{p.className="pillstat off";p.textContent=a?.connected?"Fetching numbers…":"Not connected"}
+  const ai=S.config.ai;$("#aiDot").className="dot"+(ai?"":" off");
+  $("#aiNote").textContent=ai?`Reads with AI · prices from your @${a?.handle||"—"} rate card`:"AI key not set · using the built-in reader";
+  const th=$$("#stack i");th.forEach((i,k)=>{i.style.backgroundImage=st?.top?.[k]?.thumb?`url(/api/img/${a.handle}/${k})`:""});
+  $("#stack").classList.toggle("hide",!st?.top?.some(t=>t.thumb));
+  const first=(a?.profile?.name||"").split(" ")[0];
+  $("#hello").textContent=first?`Hey ${first}, got a brand message?`:"Paste a brand message";
+}
+$("#acctBtn").addEventListener("click",()=>{
+  if(!S.accounts.length){go("settings");return}
+  const i=S.accounts.findIndex(a=>a.handle===ACT);ACT=S.accounts[(i+1)%S.accounts.length].handle;ls.set("dd_acct",ACT);
+  renderTop();renderDesk();if($("#v-stats").classList.contains("on"))renderStats();if($("#v-settings").classList.contains("on"))renderSettings();
+  toast("Switched to @"+ACT);
+});
+function go(v){
+  if(v==="new"){go("desk");setTimeout(()=>$("#msg").focus(),200);return}
+  $$(".view").forEach(s=>s.classList.toggle("on",s.id==="v-"+v));
+  $$(".navpill button").forEach(b=>b.setAttribute("aria-selected",b.dataset.go===v||(v==="deal"&&b.dataset.go==="desk")));
+  if(v==="stats")renderStats();if(v==="settings")renderSettings();if(v==="desk")renderDesk();
+  window.scrollTo({top:0});
+}
+document.addEventListener("click",e=>{const b=e.target.closest("[data-go]");if(b){e.preventDefault();go(b.dataset.go)}});
+
+/* ================= desk ================= */
+function renderDesk(){
+  const list=S.deals.filter(d=>!ACT||d.handle===ACT);
+  $("#deals").innerHTML=list.length?list.map(d=>`<button class="deal" data-deal="${esc(d.id)}">
+    <span class="mono" style="background:${tint(d.brand||d.id)}">${esc((d.brand||"?")[0].toUpperCase())}</span>
+    <span class="t"><b>${esc(d.brand||"Untitled brand")}</b><span>${esc(d.summary||"")}</span></span>
+    <span class="amt">${d.total?inr(d.total):""}</span></button>`).join(""):`<div class="empty">Your deals will show up here once you paste a message.</div>`;
+}
+$("#deals").addEventListener("click",async e=>{
+  const b=e.target.closest("[data-deal]");if(!b)return;
+  try{const d=await api("deal/"+b.dataset.deal);openDeal(d)}catch(err){toast(err.message)}
+});
+
+$("#readBtn").addEventListener("click",async()=>{
+  const msg=$("#msg").value.trim();const a=acct();
+  if(!a){toast("Add an account in Settings first");go("settings");return}
+  if(msg.length<15){toast("Paste the brand's message first");$("#msg").focus();return}
+  const b=$("#readBtn");b.disabled=true;b.innerHTML='<span class="spin" style="border-color:rgba(255,255,255,.3);border-top-color:#fff"></span>Reading their message…';
+  let read;
+  try{const r=await api("read",{method:"POST",body:{handle:a.handle,message:msg}});read=r.read||null;
+    if(r.fallback&&S.config.ai)toast(r.code==="limit"?"AI daily limit reached — used the built-in reader":"AI couldn't read it — used the built-in reader",3500)}
+  catch(e){if(e.message==="locked")return}
+  if(!read)read=localRead(msg);
+  b.disabled=false;b.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 5.6L19.5 10l-5.6 1.9L12 17.5l-1.9-5.6L4.5 10l5.6-1.4z"/></svg>Read it and build my reply';
+  D={id:"",handle:a.handle,message:msg,read,quote:buildQuote(read,a.profile),reply:"",short:"",kit:{proposal:true,validity:"14 days",timeline:read.timeline||""},status:"draft"};
+  openDeal(D,true);
+});
+
+/* ================= the quote ================= */
+const FALLBACK={reel_collab:["reel",1],reel:["reel_collab",1],story_set:["story",3],yt_integrated:["yt_dedicated",.5],yt_short:["reel",.7],
+  ugc_video:["reel",.9],ugc_photo:["reel",.5],static_post:["reel",.55],carousel:["reel",.7],live:["reel",.8],event_coverage:["reel",1],yt_dedicated:["reel",3]};
+function unitFor(type,p){
+  const r=p?.rates||{};if(r[type])return r[type];
+  const f=FALLBACK[type];if(!f)return 0;
+  const base=r[f[0]]||(FALLBACK[f[0]]&&r[FALLBACK[f[0]][0]]?r[FALLBACK[f[0]][0]]*FALLBACK[f[0]][1]:0);
+  return base?Math.round(base*f[1]/100)*100:0;
+}
+function usageFactor(m){return m<=0?0:m<=1?1:m<=3?2:m<=6?3.2:4.8}
+function buildQuote(read,p){
+  const lines=(read.deliverables||[]).filter(d=>d.qty>0||d.type).map(d=>({type:d.type||"other",qty:Math.max(1,+d.qty||1),label:d.label||LABEL[d.type]||"Deliverable",unit:unitFor(d.type,p)}));
+  if(!lines.length)lines.push({type:"reel_collab",qty:1,label:"Collab reel",unit:unitFor("reel_collab",p)});
+  return {lines,usage:+read.usage_months||0,usagePlatforms:read.usage_platforms||"",excl:+read.exclusivity_months||0,white:!!read.whitelisting,
+    longTerm:!!read.long_term&&!!p?.longTermPerVideo,disc:0,override:0};
+}
+function quoteMath(q,p){
+  const lines=q.lines.map(l=>({...l,total:(+l.qty||1)*(+l.unit||0)}));
+  const sub=lines.reduce((s,l)=>s+l.total,0);let run=sub;const adds=[];
+  if(q.usage>0){const pct=(+p?.usagePct||25)*usageFactor(q.usage)/100,a=sub*pct;run+=a;adds.push({label:`Ad rights, ${q.usage} month${q.usage>1?"s":""}${q.usagePlatforms?" ("+q.usagePlatforms+")":""}`,amount:a})}
+  if(q.excl>0){const pct=Math.min(60,(+p?.exclusivityPct||10)*q.excl)/100,a=sub*pct;run+=a;adds.push({label:`Exclusivity, ${q.excl} month${q.excl>1?"s":""}`,amount:a})}
+  if(q.white){const a=sub*(+p?.whitelistPct||30)/100;run+=a;adds.push({label:"Whitelisting (ads from my handle)",amount:a})}
+  if(q.disc>0){const a=run*Math.min(90,q.disc)/100;run-=a;adds.push({label:`Discount (${q.disc}%)`,amount:-a})}
+  const step=+p?.roundTo||500;let total=step?Math.round(run/step)*step:Math.round(run);
+  if(+q.override>0)total=+q.override;
+  return {lines,sub,adds,total};
+}
+function quotePayload(){
+  const p=acct()?.profile,m=quoteMath(D.quote,p);
+  return {lines:m.lines.map(l=>({label:(l.qty>1?l.qty+" × ":"")+l.label,qty:l.qty,unit:l.unit,amount:l.total})),
+    adds:m.adds.map(a=>({label:a.label,amount:Math.round(a.amount)})),total:m.total,totalText:inr(m.total),currency:"INR",
+    longTerm:D.quote.longTerm&&p?.longTermPerVideo?`${inr(p.longTermPerVideo)} per video for a long-term association (2–3 videos a month)`:"",
+    read:D.read};
+}
+
+/* ================= deal screen ================= */
+function openDeal(d,fresh){
+  D=d;D.kit=D.kit||{proposal:true,validity:"14 days",timeline:""};D.quote=D.quote?.edit||(D.quote?.lines&&D.quote.lines[0]&&"unit" in D.quote.lines[0]&&!("amount" in D.quote.lines[0])?D.quote:buildQuote(D.read||{},acct()?.profile));
+  if(D.handle&&D.handle!==ACT&&S.accounts.some(a=>a.handle===D.handle)){ACT=D.handle;ls.set("dd_acct",ACT);renderTop()}
+  go("deal");
+  $("#dBrand").value=D.read?.brand||"";$("#dSummary").textContent=D.read?.summary||"";
+  $("#qAcct").textContent="@"+(D.handle||ACT);
+  $("#valid").value=D.kit.validity||"14 days";$("#timeline").value=D.kit.timeline||D.read?.timeline||"";
+  $("#kitQuote").setAttribute("aria-checked",D.kit.proposal!==false);
+  $("#reply").value=LEN==="short"?(D.short||D.reply||""):(D.reply||"");
+  renderAsks();renderQuote();renderKitPrev();
+  if(fresh||!D.reply)writeReply();
+}
+function renderAsks(){
+  const r=D.read||{},c=[];
+  (r.deliverables||[]).forEach(d=>c.push(`<span class="chip dark">${d.qty||1} × ${esc(d.label||LABEL[d.type]||d.type)}${d.platform?" · "+esc(d.platform):""}</span>`));
+  if(r.usage_months)c.push(`<span class="chip">Ad rights · ${r.usage_months} mo${r.usage_platforms?" · "+esc(r.usage_platforms):""}</span>`);
+  if(r.exclusivity_months)c.push(`<span class="chip">Exclusivity · ${r.exclusivity_months} mo</span>`);
+  if(r.whitelisting)c.push(`<span class="chip">Whitelisting</span>`);
+  const ot={barter:"Barter offer",barter_plus_small_budget:"Barter + small budget",affiliate_or_credits:"Credits / commission",unclear:"Offer unclear"}[r.offer_type];
+  if(ot)c.push(`<span class="chip warn">${ot}</span>`);else if(r.offer_type==="paid")c.push(`<span class="chip green">Paid</span>`);
+  if(r.budget_inr)c.push(`<span class="chip">Budget ${inr(r.budget_inr)}</span>`);
+  if(r.long_term)c.push(`<span class="chip green">Long-term${r.long_term_note?" · "+esc(r.long_term_note):""}</span>`);
+  const asks=[["asks_rates","Your rates"],["asks_media_kit","Media kit"],["asks_location","Your city"],["asks_availability","Availability"],["asks_demographics","Audience data"]].filter(x=>r[x[0]]).map(x=>x[1]);
+  if(asks.length)c.push(`<span class="chip green">They want: ${esc(asks.join(", "))}</span>`);
+  if(r.timeline)c.push(`<span class="chip">${esc(r.timeline)}</span>`);
+  if(r.perks)c.push(`<span class="chip">Perks: ${esc(r.perks)}</span>`);
+  $("#asks").innerHTML=c.join("")||'<span class="chip">Nothing specific — quoted a collab reel</span>';
+  $("#flags").innerHTML=(r.red_flags||[]).map(f=>`<li>⚑ ${esc(f)}</li>`).join("");
+}
+function renderQuote(){
+  const p=acct()?.profile,q=D.quote,m=quoteMath(q,p);
+  $("#lines").innerHTML=q.lines.map((l,i)=>`<div class="qline" data-i="${i}">
+    <div class="step"><button data-q="-1" aria-label="Less">−</button><b>${l.qty}</b><button data-q="1" aria-label="More">+</button></div>
+    <input value="${esc(l.label)}" data-f="label" aria-label="Deliverable">
+    <div class="money"><input class="price" value="${l.unit||""}" data-f="unit" inputmode="numeric" placeholder="0" aria-label="Price each"></div></div>`).join("");
+  const mo=[0,1,2,3,6,12];
+  $("#adds").innerHTML=`
+   <div class="add"><div class="lbl">Ad rights<small>+${p?.usagePct||25}% for 1 month, more for longer</small></div>
+     <select data-a="usage">${mo.map(v=>`<option value="${v}"${v===q.usage?" selected":""}>${v?v+" mo":"None"}</option>`).join("")}</select></div>
+   <div class="add"><div class="lbl">Exclusivity<small>+${p?.exclusivityPct||10}% per month</small></div>
+     <select data-a="excl">${[0,1,2,3,6].map(v=>`<option value="${v}"${v===q.excl?" selected":""}>${v?v+" mo":"None"}</option>`).join("")}</select></div>
+   <div class="add"><div class="lbl">Whitelisting<small>Ads run from your handle, +${p?.whitelistPct||30}%</small></div>
+     <button class="sw" data-a="white" role="switch" aria-checked="${!!q.white}" aria-label="Whitelisting"></button></div>
+   ${p?.longTermPerVideo?`<div class="add"><div class="lbl">Offer long-term rate<small>${inr(p.longTermPerVideo)} per video for 2–3 a month</small></div>
+     <button class="sw" data-a="longTerm" role="switch" aria-checked="${!!q.longTerm}" aria-label="Long-term rate"></button></div>`:""}`;
+  $("#disc").value=q.disc||"";$("#override").value=q.override||"";
+  $("#total").textContent=inr(m.total);
+  const b=D.read?.budget_inr;
+  $("#budget").innerHTML=b?(m.total>b?`Their budget is <b>${inr(b)}</b> — your quote is ${inr(m.total-b)} above it.`:`Their budget is <b>${inr(b)}</b> — you're ${inr(b-m.total)} under it. You could ask for more.`):
+    (m.lines.some(l=>!l.unit)?`<span style="color:var(--warn)">Some lines have no price — add it in Settings → Rate card, or type it here.</span>`:"");
+}
+$("#lines").addEventListener("click",e=>{const b=e.target.closest("[data-q]");if(!b)return;const i=+b.closest(".qline").dataset.i;
+  D.quote.lines[i].qty=Math.max(0,D.quote.lines[i].qty+(+b.dataset.q));if(!D.quote.lines[i].qty)D.quote.lines.splice(i,1);changed(true)});
+$("#lines").addEventListener("input",e=>{const f=e.target.dataset.f;if(!f)return;const i=+e.target.closest(".qline").dataset.i;
+  D.quote.lines[i][f]=f==="unit"?+e.target.value.replace(/\D/g,"")||0:e.target.value;changed(false)});
+$("#addLine").addEventListener("click",()=>{D.quote.lines.push({type:"other",qty:1,label:"",unit:0});renderQuote();$$("#lines .qline:last-child input")[0]?.focus()});
+$("#adds").addEventListener("change",e=>{const a=e.target.dataset.a;if(a){D.quote[a]=+e.target.value;changed(true)}});
+$("#adds").addEventListener("click",e=>{const b=e.target.closest(".sw");if(!b)return;const a=b.dataset.a;D.quote[a]=!D.quote[a];changed(true)});
+$("#disc").addEventListener("input",e=>{D.quote.disc=+e.target.value.replace(/[^\d.]/g,"")||0;changed(false)});
+$("#override").addEventListener("input",e=>{D.quote.override=+e.target.value.replace(/\D/g,"")||0;changed(false)});
+$("#dBrand").addEventListener("input",e=>{D.read=D.read||{};D.read.brand=e.target.value;save()});
+["valid","timeline"].forEach(k=>$("#"+k).addEventListener("input",e=>{D.kit[k==="valid"?"validity":"timeline"]=e.target.value;save()}));
+$("#kitQuote").addEventListener("click",e=>{D.kit.proposal=!(D.kit.proposal!==false);e.currentTarget.setAttribute("aria-checked",D.kit.proposal);renderKitPrev();save()});
+$("#reply").addEventListener("input",e=>{if(LEN==="short")D.short=e.target.value;else D.reply=e.target.value;D.edited=true;save()});
+$$(".seg button").forEach(b=>b.addEventListener("click",()=>{LEN=b.dataset.len;$$(".seg button").forEach(x=>x.setAttribute("aria-pressed",x===b));
+  $("#reply").value=LEN==="short"?(D.short||D.reply||""):(D.reply||"")}));
+
+let priceT;
+function changed(rerender){
+  if(rerender)renderQuote();else{const m=quoteMath(D.quote,acct()?.profile);$("#total").textContent=inr(m.total)}
+  renderKitPrev();save();
+  clearTimeout(priceT);if(!D.edited)priceT=setTimeout(()=>writeReply(),1400);   // keep the reply's numbers in sync until you edit it by hand
+}
+
+/* ================= reply ================= */
+async function writeReply(){
+  const a=acct();if(!D||!a)return;
+  $("#replyLoad").classList.remove("hide");
+  const quote=quotePayload();let out=null;
+  try{const r=await api("reply",{method:"POST",body:{handle:a.handle,message:D.message,quote}});if(!r.fallback)out=r}catch(e){}
+  if(!out)out={reply:localReply(quote,a.profile),short:""};
+  D.reply=out.reply;D.short=out.short||"";D.edited=false;
+  $("#reply").value=LEN==="short"?(D.short||D.reply):D.reply;
+  $("#replyLoad").classList.add("hide");save();
+}
+$("#rewrite").addEventListener("click",()=>{D.edited=false;writeReply()});
+$("#copyReply").addEventListener("click",async()=>{
+  const r=await save(true);let txt=$("#reply").value;
+  if(r?.url)txt=/\[media kit link\]/i.test(txt)?txt.replace(/\[media kit link\]/gi,r.url):txt;
+  copy(txt,"Reply copied"+(r?.url&&/\/k\//.test(txt)?" with your kit link":""));
+  D.status="sent";save();
+});
+function copy(t,msg){const ok=()=>toast(msg);if(navigator.clipboard?.writeText)navigator.clipboard.writeText(t).then(ok,()=>{fb(t);ok()});else{fb(t);ok()}}
+function fb(t){const a=document.createElement("textarea");a.value=t;a.style.cssText="position:fixed;opacity:0";document.body.appendChild(a);a.select();try{document.execCommand("copy")}catch{}a.remove()}
+
+/* ================= kit ================= */
+function renderKitPrev(){
+  const a=acct(),st=a?.stats,m=quoteMath(D.quote,a?.profile);
+  $("#kitprev").innerHTML=`<div class="who">${avatarHTML(a)}<div><b>${esc(a?.profile?.name||"@"+(a?.handle||""))}</b><small>@${esc(a?.handle||"")}${D.read?.brand?" · for "+esc(D.read.brand):""}</small></div></div>
+   <div class="nums"><div><b>${compact(st?.followers)}</b><span>Followers</span></div><div><b>${compact(st?.avgViews)}</b><span>Avg reel views</span></div>
+   <div><b>${D.kit.proposal!==false?inr(m.total):(st?.er||"—")+"%"}</b><span>${D.kit.proposal!==false?"Proposal":"Engagement"}</span></div></div>`;
+}
+$("#kitLink").addEventListener("click",async()=>{const r=await save(true);if(r?.url)copy(r.url,"Kit link copied")});
+$("#kitOpen").addEventListener("click",async()=>{const w=window.open("","_blank");const r=await save(true);if(r?.url){if(w)w.location=r.url;else location.href=r.url}else if(w)w.close()});
+$("#pdfBtn").addEventListener("click",async()=>{const w=window.open("","_blank");const r=await save(true);if(r?.url){const u=r.url+"?pdf=1";if(w)w.location=u;else location.href=u}else if(w)w.close()});
+$("#delDeal").addEventListener("click",async e=>{
+  const b=e.currentTarget;if(!b.dataset.armed){b.dataset.armed=1;b.textContent="Tap again to delete";setTimeout(()=>{delete b.dataset.armed;b.textContent="Delete this deal"},3000);return}
+  if(D.id)await api("deal/"+D.id,{method:"DELETE"});S.deals=S.deals.filter(x=>x.id!==D.id);D=null;go("desk");toast("Deal deleted");
+});
+
+let saveT,saving=null;
+function save(now){
+  clearTimeout(saveT);
+  const run=async()=>{if(!D)return null;
+    const quote=quotePayload();
+    const body={id:D.id,handle:D.handle||ACT,message:D.message,read:D.read,reply:D.reply,status:D.status,
+      quote:{...quote,edit:D.quote},kit:{proposal:D.kit.proposal!==false,validity:D.kit.validity,timeline:D.kit.timeline,terms:acct()?.profile?.terms||""}};
+    try{const r=await api("deal",{method:"POST",body});D.id=r.id;D.slug=r.slug;D.url=r.url;
+      const i=S.deals.findIndex(x=>x.id===r.id),row={id:r.id,handle:body.handle,brand:D.read?.brand||"",summary:D.read?.summary||"",total:quote.total,updated:Date.now(),slug:r.slug};
+      if(i>=0)S.deals[i]=row;else S.deals.unshift(row);return r}catch(e){if(e.message!=="locked")toast("Couldn't save: "+e.message);return null}};
+  if(now){saving=run();return saving}
+  saveT=setTimeout(run,700);return Promise.resolve(null);
+}
+
+/* ================= built-in reader (no AI) ================= */
+function localRead(t){
+  /* Only look for deliverables where they're actually being asked for: a "rate for …" sentence wins,
+     and descriptive sentences ("a platform for…", "formats include…") are ignored. */
+  const sents=t.split(/(?<=[.?!])\s+|\n+/).filter(Boolean);
+  const ask=sents.filter(x=>/\b(rates?|commercials?|quote|pricing|charge)\s+(for|on)\b/i.test(x));
+  const keep=sents.filter(x=>!/platform for|integrated with|formats? include|available formats|we work with|you share|showing how/i.test(x));
+  const focus=" "+(ask.length?ask.concat(keep.filter(x=>/^\s*[•\-*]|deliverable|looking (at|for)|we'?d (love|like)|would be/i.test(x))).join(" "):keep.join(" ")).toLowerCase()+" ";
+  const low=focus,full=" "+t.toLowerCase()+" ",N={a:1,an:1,one:1,single:1,two:2,three:3,four:4,five:5,multiple:3};
+  const qty=re=>{const m=low.match(new RegExp("(\\d+|an?|one|two|three|four|five|multiple)\\s+(?:instagram\\s+|insta\\s+|ig\\s+|dedicated\\s+|non[- ]collab\\s+|collab\\s+|reshare\\s+)*"+re));return m?(+m[1]||N[m[1]]||1):1};
+  const d=[];
+  if(/youtube|yt\b/.test(low)&&/dedicated|video/.test(low))d.push({type:"yt_dedicated",qty:1,label:"Dedicated YouTube video"});
+  if(/ugc/.test(low))d.push({type:"ugc_video",qty:qty("ugc"),label:"UGC video"});
+  if(/collab reel|collab post|paid partnership/.test(low))d.push({type:"reel_collab",qty:qty("(?:collab\\s+)?reels?"),label:"Collab reel"});
+  else if(/\breels?\b/.test(low))d.push({type:"reel",qty:qty("reels?"),label:"Reel"});
+  if(/multiple stor|stories covering|story coverage/.test(low))d.push({type:"story_set",qty:1,label:"Story set"});
+  else if(/stor(y|ies)/.test(low))d.push({type:"story",qty:qty("(?:reshare\\s+)?stor(?:y|ies)"),label:/reshare/.test(low)?"Reshare story":"Story"});
+  if(/carousel/.test(low))d.push({type:"carousel",qty:qty("carousels?"),label:"Carousel"});
+  const um=low.match(/(\d+|one|three|six|twelve)\s*[- ]?months?\s*(?:of\s*)?(?:ad|media|usage)|(?:ad|media|usage)\s*rights?[^.\n]{0,30}?(\d+|one|three|six)\s*months?/);
+  const usage=um?(+(um[1]||um[2])||{one:1,three:3,six:6,twelve:12}[um[1]||um[2]]||1):/ad rights|media rights|usage rights|inclusive of ad/.test(low)?1:0;
+  const bud=full.match(/(?:budget|inr|rs\.?|₹)[^\d\n]{0,12}([\d,]+)\s*(k)?/);
+  return {brand:(t.match(/\b(?:from|with|at|team)\s+([A-Z][\w&.-]+(?:\s+[A-Z][\w&.-]+)?)/)||[])[1]||"",
+    contact:(t.match(/\b(?:[Ii]'?m|[Tt]his is|[Ii]t'?s)\s+([A-Z][a-z]+)/)||[])[1]||"",
+    summary:"Read with the built-in reader — check the details.",deliverables:d,usage_months:usage,
+    usage_platforms:(low.match(/\((youtube[^)]*)\)/)||[])[1]||"",exclusivity_months:/exclusiv/.test(low)?3:0,whitelisting:/whitelist|spark ad|partnership ad/.test(low),
+    offer_type:/barter|gift|in exchange|credits|commission/.test(full)?(/credits|commission/.test(full)?"affiliate_or_credits":"barter"):"paid",
+    budget_inr:bud?(+bud[1].replace(/,/g,""))*(bud[2]?1000:1):0,long_term:/long[- ]term|per month|videos a month/.test(full),
+    asks_rates:/rate|commercial|charge|quote|pricing/.test(full),asks_media_kit:/media kit|demograph/.test(full),asks_location:/which city|location|based in|where are you/.test(full),
+    asks_availability:/availab/.test(full),asks_demographics:/demograph/.test(full),timeline:"",red_flags:/tiktok/.test(full)?["TikTok isn't available in India"]:[]};
+}
+function localReply(q,p){
+  const r=D.read||{},who=r.contact?`Hey ${r.contact}!`:"Hey!";
+  const L=[`${who} Thanks for reaching out 😊`,""];
+  if(r.asks_location&&p?.location)L.push(`I'm based in ${p.location}.`,"");
+  if(/barter|credits/.test(r.offer_type||""))L.push("I work on paid collaborations, so here's what it would look like:","");
+  L.push(`For ${q.lines.map(l=>l.label).join(" + ")}${q.adds.filter(a=>a.amount>0).length?" + "+q.adds.filter(a=>a.amount>0).map(a=>a.label.toLowerCase()).join(" + "):""}, my rate would be *${q.totalText}*.`);
+  if(q.longTerm)L.push("",`Since you're looking at a long-term association, I'd be happy to offer ${q.longTerm}.`);
+  if(r.asks_media_kit||r.asks_demographics)L.push("","Here's my media kit with my numbers and audience: [media kit link]");
+  if(r.asks_availability)L.push("","I'm available over the next 1–2 months.");
+  L.push("","Happy to discuss the campaign details and take it forward!");
+  return L.join("\n");
+}
+
+/* ================= stats ================= */
+function renderStats(){
+  const a=acct(),st=a?.stats,box=$("#statsBody");
+  if(!a){box.innerHTML=`<div class="empty">Add an account in Settings first.</div>`;return}
+  if(!a.connected){box.innerHTML=`<div class="card"><h3>Connect @${esc(a.handle)}</h3><p class="cap">Log in with Instagram once. After that your numbers refresh every morning.</p>
+    <a class="btn w" href="/api/ig/start">Connect Instagram</a>${S.config.ig?"":'<p class="hint">The Instagram app keys aren\'t set in Netlify yet.</p>'}</div>`;return}
+  if(!st){box.innerHTML=`<div class="card"><div class="loading"><span class="spin"></span>No numbers yet.</div><button class="btn w" id="refreshNow">Fetch now</button>${a.lastError?`<p class="hint" style="color:var(--warn)">${esc(a.lastError)}</p>`:""}</div>`;return}
+  $("#statsSub").textContent=`@${a.handle} · updated ${ago(st.fetched)} · averages from your last ${st.reelsCounted||0} reels`;
+  const bars=(rows)=>rows?.length?`<div class="bars">${rows.map(r=>`<div class="bar"><span>${esc(r.k)}</span><i><b style="width:${Math.max(3,r.pct)}%"></b></i><span>${r.pct}%</span></div>`).join("")}</div>`:'<p class="hint">Instagram shares this once you have 100+ followers.</p>';
+  box.innerHTML=`<div class="stats">
+    <div class="stat hero"><div class="v">${compact(st.followers)}</div><div class="k">Followers</div></div>
+    <div class="stat"><div class="v">${compact(st.avgViews)}</div><div class="k">Avg reel views</div></div>
+    <div class="stat"><div class="v">${st.er||0}%</div><div class="k">Engagement rate</div></div>
+    <div class="stat"><div class="v">${compact(st.avgReach)}</div><div class="k">Avg reel reach</div></div>
+    <div class="stat"><div class="v">${compact(st.avgLikes)}</div><div class="k">Avg likes</div></div>
+    <div class="stat"><div class="v">${compact(st.avgComments)}</div><div class="k">Avg comments</div></div>
+    <div class="stat"><div class="v">${compact(st.avgSaves)}</div><div class="k">Avg saves</div></div>
+    <div class="stat"><div class="v">${compact(st.reach28)}</div><div class="k">Accounts reached, 28 days</div></div></div>
+   <div class="card" style="margin-top:12px"><h3>Best recent reels</h3><p class="cap">These go on your media kit.</p>
+    <div class="reels">${(st.top||[]).slice(0,6).map((r,i)=>`<a class="reel" href="${esc(r.permalink)}" target="_blank" rel="noopener" style="${r.thumb?`background-image:url(/api/img/${a.handle}/${i})`:""}"><span><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>${compact(r.views||r.reach)}</span></a>`).join("")}</div></div>
+   <div class="dealgrid" style="margin-top:12px"><div class="card"><h3>Audience age</h3>${bars(st.demo?.age)}</div>
+    <div class="card"><h3>Gender</h3>${bars((st.demo?.gender||[]).map(g=>({...g,k:{F:"Women",M:"Men",U:"Other"}[g.k]||g.k})))}</div>
+    <div class="card"><h3>Top cities</h3>${bars(st.demo?.city)}</div><div class="card"><h3>Top countries</h3>${bars(st.demo?.country)}</div></div>
+   <button class="btn line w" id="refreshNow" style="margin-top:12px">Refresh now</button>`;
+}
+document.addEventListener("click",async e=>{
+  if(e.target.id!=="refreshNow")return;const b=e.target,a=acct();b.disabled=true;b.textContent="Fetching from Instagram…";
+  try{const r=await api("refresh/"+a.handle,{method:"POST"});a.stats=r.stats;renderTop();renderStats();toast("Numbers updated")}
+  catch(err){b.disabled=false;b.textContent="Try again";toast(err.message,4000)}
+});
+
+/* ================= settings ================= */
+let SETT="";
+function renderSettings(){
+  SETT=SETT&&S.accounts.some(a=>a.handle===SETT)?SETT:(ACT||"");
+  $("#setTabs").innerHTML=S.accounts.map(a=>`<button class="tab" data-t="${esc(a.handle)}" aria-pressed="${a.handle===SETT}">@${esc(a.handle)}</button>`).join("")+
+    `<button class="tab" data-t="__new" aria-pressed="${!SETT}">+ Add account</button><button class="tab" data-t="__out">Log out</button>`;
+  const a=S.accounts.find(x=>x.handle===SETT),body=$("#setBody");
+  if(!a){body.innerHTML=`<div class="card"><h3>Add an account</h3><p class="cap">Connect with Instagram to pull your numbers automatically, or set up rates first and connect later.</p>
+    <a class="btn w" href="/api/ig/start">Connect Instagram</a>
+    <div class="f" style="margin-top:16px"><label for="newH">Or add by handle</label><input id="newH" placeholder="@handle"></div>
+    <button class="btn ghost w" id="newHBtn">Set up rates first</button></div>`;return}
+  const p=a.profile||{},r=p.rates||{};
+  body.innerHTML=`<div class="dealgrid"><div class="col">
+   <div class="card"><h3>Instagram</h3>
+    <p class="cap">${a.connected?`Connected · refreshed ${ago(a.lastRefresh)} · token renews automatically`:"Not connected yet"}</p>
+    ${a.lastError?`<p class="hint" style="color:var(--warn);margin-top:-6px">${esc(a.lastError)}</p>`:""}
+    <div class="row"><a class="btn sm" href="/api/ig/start">${a.connected?"Reconnect":"Connect Instagram"}</a>${a.connected?'<button class="btn ghost sm" id="disc1">Disconnect</button>':""}</div></div>
+   <div class="card"><h3>You, on the kit</h3><p class="cap">What brands see at the top of your media kit.</p>
+    <div class="g2"><div class="f"><label>Name</label><input data-p="name" value="${esc(p.name)}"></div><div class="f"><label>Based in</label><input data-p="location" value="${esc(p.location)}"></div></div>
+    <div class="f"><label>One line about you</label><textarea data-p="bio" style="min-height:70px">${esc(p.bio)}</textarea></div>
+    <div class="f"><label>Categories</label><input data-p="categories" value="${esc(p.categories)}" placeholder="Design, Tech, Lifestyle"></div>
+    <div class="g2"><div class="f"><label>Email</label><input data-p="email" value="${esc(p.email)}" type="email"></div><div class="f"><label>Website</label><input data-p="website" value="${esc(p.website)}"></div></div>
+    <div class="f"><label>Kit accent colour</label><input data-p="accent" value="${esc(p.accent||"#1FB955")}" type="color" style="height:48px;padding:6px"></div></div>
+   <div class="card"><h3>How you work</h3>
+    <div class="f"><label>Payment terms</label><textarea data-p="terms" style="min-height:64px">${esc(p.terms)}</textarea></div>
+    <div class="f"><label>Rules for replies</label><textarea data-p="policies" style="min-height:90px" placeholder="e.g. No barter. Long-term deals get a lower per-video rate.">${esc(p.policies)}</textarea></div></div>
+  </div><div class="col">
+   <div class="card"><h3>Rate card</h3><p class="cap">Per deliverable, organic only. Leave blank and it's estimated from your reel rate.</p>
+    <div class="ratesgrid">${RATES.map(([k,l])=>`<div class="f"><label>${l}</label><div class="money"><input data-r="${k}" value="${r[k]||""}" inputmode="numeric" placeholder="—"></div></div>`).join("")}</div>
+    <div class="g3" style="margin-top:4px">
+     <div class="f"><label>Ad rights, 1 mo %</label><input data-n="usagePct" value="${p.usagePct||25}" inputmode="numeric"></div>
+     <div class="f"><label>Exclusivity / mo %</label><input data-n="exclusivityPct" value="${p.exclusivityPct||10}" inputmode="numeric"></div>
+     <div class="f"><label>Whitelisting %</label><input data-n="whitelistPct" value="${p.whitelistPct||30}" inputmode="numeric"></div>
+     <div class="f"><label>Long-term, per video</label><div class="money"><input data-n="longTermPerVideo" value="${p.longTermPerVideo||""}" inputmode="numeric" placeholder="—"></div></div>
+     <div class="f"><label>Round totals to</label><div class="money"><input data-n="roundTo" value="${p.roundTo??500}" inputmode="numeric"></div></div></div></div>
+   <div class="card"><h3>Replies that worked</h3><p class="cap">Paste past brand messages and what you replied. New replies copy this voice.</p>
+    <div id="exList">${(p.examples||[]).map((e,i)=>exHTML(e,i)).join("")}</div>
+    <button class="btn ghost w sm" id="exAdd">+ Add a past reply</button></div>
+  </div></div>
+  <button class="btn w" id="saveSet" style="margin-top:12px;position:sticky;bottom:calc(env(safe-area-inset-bottom) + 86px);z-index:5">Save @${esc(a.handle)}</button>`;
+}
+const exHTML=(e,i)=>`<div class="ex" data-x="${i}"><label>Brand wrote</label><textarea data-e="brand">${esc(e.brand)}</textarea>
+  <label style="margin-top:8px">You replied</label><textarea data-e="reply">${esc(e.reply)}</textarea><div class="row" style="margin-top:6px"><button class="btn line sm" data-exdel style="flex:0">Remove</button></div></div>`;
+$("#setTabs").addEventListener("click",async e=>{const b=e.target.closest("[data-t]");if(!b)return;const t=b.dataset.t;
+  if(t==="__out"){await api("logout",{method:"POST"});location.reload();return}
+  SETT=t==="__new"?"":t;if(SETT){ACT=SETT;ls.set("dd_acct",ACT);renderTop()}renderSettings()});
+$("#setBody").addEventListener("click",async e=>{
+  if(e.target.id==="exAdd"){$("#exList").insertAdjacentHTML("beforeend",exHTML({brand:"",reply:""},$$("#exList .ex").length));$$("#exList .ex:last-child textarea")[0].focus()}
+  if(e.target.closest("[data-exdel]"))e.target.closest(".ex").remove();
+  if(e.target.id==="newHBtn"){const h=$("#newH").value.trim().replace(/^@/,"").toLowerCase();if(!h)return;
+    await api("profile/"+h,{method:"PUT",body:{rates:{},usagePct:25,exclusivityPct:10,whitelistPct:30,roundTo:500}});S=await api("state");SETT=ACT=h;ls.set("dd_acct",h);renderTop();renderSettings()}
+  if(e.target.id==="disc1"){if(!e.target.dataset.armed){e.target.dataset.armed=1;e.target.textContent="Tap again";return}
+    await api("account/"+SETT,{method:"DELETE"});S=await api("state");renderTop();renderSettings();toast("Disconnected")}
+  if(e.target.id==="saveSet"){
+    const p={rates:{},examples:[]};
+    $$("#setBody [data-p]").forEach(i=>p[i.dataset.p]=i.value);
+    $$("#setBody [data-r]").forEach(i=>{const v=+i.value.replace(/\D/g,"");if(v)p.rates[i.dataset.r]=v});
+    $$("#setBody [data-n]").forEach(i=>p[i.dataset.n]=+i.value.replace(/[^\d.]/g,"")||0);
+    $$("#exList .ex").forEach(x=>p.examples.push({brand:x.querySelector('[data-e="brand"]').value,reply:x.querySelector('[data-e="reply"]').value}));
+    e.target.disabled=true;try{const r=await api("profile/"+SETT,{method:"PUT",body:p});const a=S.accounts.find(x=>x.handle===SETT);a.profile=r.profile;toast("Saved @"+SETT);renderTop()}
+    catch(err){toast(err.message)}e.target.disabled=false}
+});
+
+/* go */
+load().catch(e=>{if(e.message!=="locked"){showLock();$("#lockErr").textContent=e.message}});
+</script>
+</body>
+</html>
