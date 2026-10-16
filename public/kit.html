@@ -138,7 +138,7 @@ function render(k){
     <div class="contact">${p.email?`<a href="mailto:${esc(p.email)}"><small>Email</small>${esc(p.email)}</a>`:""}
       <a href="https://instagram.com/${esc(h)}" target="_blank" rel="noopener"><small>Instagram</small>@${esc(h)}</a>
       ${p.website?`<a href="${esc(/^https?:/.test(p.website)?p.website:"https://"+p.website)}" target="_blank" rel="noopener"><small>Website</small>${esc(p.website.replace(/^https?:\/\//,""))}</a>`:(p.phone?`<div><small>Phone</small>${esc(p.phone)}</div>`:"")}</div>
-    <p class="foot">Numbers update daily from Instagram's official insights.</p>
+    <p class="foot">Numbers update twice a week from Instagram's official insights.</p>
   </section>`;
   $("#root").innerHTML=page1+page2;$("#dock").hidden=false;
 }
