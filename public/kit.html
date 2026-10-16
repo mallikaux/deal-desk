@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Media kit</title>
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#F1F2F4">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F1F2F4;--card:#fff;--ink:#0E0F11;--mut:#6B6F76;--faint:#A0A4AB;--line:#E7E8EB;--soft:#F6F7F8;--acc:#1FB955;--acc-ink:#fff;
+  --sans:"Inter",system-ui,-apple-system,sans-serif;--disp:"Inter Tight","Inter",system-ui,sans-serif}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--ink)}
+body{font-family:var(--sans);-webkit-font-smoothing:antialiased;line-height:1.45}
+.wrap{max-width:860px;margin:0 auto;padding:16px 16px 110px}
+.page{background:var(--card);border-radius:30px;padding:28px;box-shadow:0 1px 2px rgba(14,15,17,.04),0 18px 40px -22px rgba(14,15,17,.25);margin-bottom:14px;overflow:hidden}
+@media(max-width:560px){.page{padding:20px;border-radius:26px}}
+
+.hero{display:grid;grid-template-columns:auto 1fr;gap:18px;align-items:center}
+.av{width:84px;height:84px;border-radius:50%;object-fit:cover;background:#DADCE0;box-shadow:0 0 0 4px #fff,0 0 0 5px var(--line)}
+.av.init{display:grid;place-items:center;font-family:var(--disp);font-weight:800;font-size:30px;color:#fff;background:var(--ink)}
+h1{font-family:var(--disp);font-weight:800;font-size:38px;letter-spacing:-.04em;line-height:1;margin:0}
+.handle{display:inline-flex;align-items:center;gap:6px;margin-top:8px;font-weight:600;color:var(--mut);text-decoration:none;font-size:14.5px}
+.bio{margin:16px 0 0;font-size:16px;color:#33363B;max-width:58ch}
+.cats{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
+.cats i{font-style:normal;height:30px;display:inline-flex;align-items:center;padding:0 12px;border-radius:99px;background:var(--soft);font-size:12.5px;font-weight:600}
+@media(max-width:560px){h1{font-size:30px}.av{width:66px;height:66px}}
+
+.live{display:inline-flex;align-items:center;gap:8px;height:34px;padding:0 14px;border-radius:99px;background:var(--acc);color:var(--acc-ink);font-weight:600;font-size:12.5px;margin-top:22px;
+  box-shadow:0 0 0 3px color-mix(in srgb,var(--acc) 22%,transparent)}
+.live::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor;opacity:.85}
+.nums{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:14px}
+@media(max-width:620px){.nums{grid-template-columns:repeat(2,1fr)}}
+.num{background:var(--soft);border-radius:20px;padding:16px}
+.num.lead{background:var(--ink);color:#fff}
+.num .v{font-family:var(--disp);font-weight:800;font-size:30px;letter-spacing:-.04em;font-variant-numeric:tabular-nums;line-height:1}
+.num .k{font-size:12.5px;color:var(--mut);margin-top:6px}
+.num.lead .k{color:#A9ADB4}
+
+h2{font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);margin:26px 0 12px}
+.aud{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+@media(max-width:620px){.aud{grid-template-columns:1fr}}
+.aud h4{margin:0 0 8px;font-size:14px}
+.bar{display:grid;grid-template-columns:96px 1fr 44px;gap:10px;align-items:center;font-size:13px;margin-bottom:7px}
+.bar i{height:9px;border-radius:99px;background:var(--soft);overflow:hidden;display:block}
+.bar i b{display:block;height:100%;border-radius:99px;background:var(--ink)}
+.bar span:last-child{text-align:right;color:var(--mut);font-variant-numeric:tabular-nums}
+
+.reels{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.reel{position:relative;aspect-ratio:9/13;border-radius:20px;background:#DDE0E4 center/cover;overflow:hidden;text-decoration:none;color:#fff}
+.reel span{position:absolute;left:8px;bottom:8px;height:26px;white-space:nowrap;max-width:calc(100% - 16px);display:inline-flex;align-items:center;gap:5px;padding:0 10px;border-radius:99px;background:rgba(0,0,0,.55);font-size:12.5px;font-weight:600}
+.reel span svg{width:11px;height:11px}
+
+.prop .for{font-family:var(--disp);font-size:28px;font-weight:800;letter-spacing:-.035em;line-height:1.05;margin:0}
+.prop .forsub{color:var(--mut);margin:6px 0 16px}
+.ln{display:flex;justify-content:space-between;gap:14px;padding:13px 0;border-bottom:1px solid var(--line);font-size:15px}
+.ln b{font-variant-numeric:tabular-nums;white-space:nowrap;font-weight:600}
+.ln.sub{color:var(--mut);font-size:14px}
+.ln.sub b{font-weight:500}
+.tot{display:flex;justify-content:space-between;align-items:flex-end;padding-top:16px;margin-top:2px;border-top:2px solid var(--ink)}
+.tot span{font-weight:700}
+.tot b{font-family:var(--disp);font-size:44px;font-weight:800;letter-spacing:-.045em;line-height:1;font-variant-numeric:tabular-nums}
+.meta{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:18px}
+@media(max-width:560px){.meta{grid-template-columns:1fr}}
+.meta div{background:var(--soft);border-radius:16px;padding:12px 14px;font-size:13.5px}
+.meta div small{display:block;color:var(--mut);font-size:11.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;margin-bottom:3px}
+.lt{margin-top:12px;padding:12px 14px;border-radius:16px;background:color-mix(in srgb,var(--acc) 12%,#fff);color:color-mix(in srgb,var(--acc) 70%,#000);font-size:14px;font-weight:500}
+
+.contact{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+@media(max-width:560px){.contact{grid-template-columns:1fr}}
+.contact a,.contact div{color:var(--ink);background:var(--soft);border-radius:16px;padding:12px 14px;text-decoration:none;font-size:14px;font-weight:600;word-break:break-word}
+.contact small{display:block;color:var(--mut);font-size:11.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;margin-bottom:3px}
+.foot{text-align:center;color:var(--faint);font-size:12px;margin-top:6px}
+
+.dock{position:fixed;left:50%;bottom:calc(env(safe-area-inset-bottom) + 16px);transform:translateX(-50%);display:flex;gap:8px;z-index:20}
+.btn{display:inline-flex;align-items:center;gap:8px;height:52px;padding:0 22px;border-radius:99px;background:var(--ink);color:#fff;font:600 15px var(--sans);border:0;cursor:pointer;
+  box-shadow:0 14px 30px -12px rgba(14,15,17,.55);white-space:nowrap}
+.btn.light{background:#fff;color:var(--ink);box-shadow:0 14px 30px -14px rgba(14,15,17,.35)}
+.btn svg{width:17px;height:17px}
+.state{padding:60px 20px;text-align:center;color:var(--mut)}
+
+/* PDF capture: fixed A4 width so the file looks the same from any device */
+body.pdf .wrap{width:794px;max-width:none;padding:0}
+body.pdf .page{width:794px;min-height:1123px;border-radius:0;box-shadow:none;margin:0;padding:44px}
+body.pdf .dock{display:none}
+@media print{.dock{display:none}.page{box-shadow:none;break-inside:avoid}body{background:#fff}}
+</style>
+</head>
+<body>
+<div class="wrap" id="root"><div class="state">Loading media kit…</div></div>
+<div class="dock" id="dock" hidden>
+  <button class="btn" id="dl"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg>Download PDF</button>
+  <button class="btn light" id="share">Share</button>
+</div>
+<script>
+const $=s=>document.querySelector(s);
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const inr=v=>"₹"+Math.round(+v||0).toLocaleString("en-IN");
+const compact=v=>{v=+v||0;if(!v)return "—";if(v>=1e7)return (v/1e7).toFixed(1).replace(/\.0$/,"")+"Cr";if(v>=1e5)return (v/1e5).toFixed(1).replace(/\.0$/,"")+"L";if(v>=1e3)return (v/1e3).toFixed(1).replace(/\.0$/,"")+"K";return String(v)};
+const slug=location.pathname.split("/").filter(Boolean).pop();
+let K=null;
+
+function bars(rows,map){return (rows||[]).slice(0,4).map(r=>`<div class="bar"><span>${esc(map?map(r.k):r.k)}</span><i><b style="width:${Math.max(3,r.pct)}%"></b></i><span>${r.pct}%</span></div>`).join("")}
+function render(k){
+  const p=k.profile||{},s=k.stats||{},h=k.handle,pr=k.proposal;
+  document.documentElement.style.setProperty("--acc",p.accent||"#1FB955");
+  document.title=(k.brand?`${p.name||"@"+h} × ${k.brand}`:(p.name||"@"+h))+" — media kit";
+  const d=s.demo||{},gender=(d.gender||[]).map(g=>({...g,k:{F:"Women",M:"Men",U:"Other"}[g.k]||g.k}));
+  const fetched=s.fetched?new Date(s.fetched).toLocaleDateString("en-GB",{day:"numeric",month:"short",year:"numeric"}):"";
+  const page1=`<section class="page">
+    <div class="hero"><img class="av" src="/api/img/${h}/avatar" alt="" onerror="this.outerHTML='<div class=&quot;av init&quot;>${esc((p.name||h||"?")[0].toUpperCase())}</div>'">
+      <div><h1>${esc(p.name||"@"+h)}</h1><a class="handle" href="https://instagram.com/${esc(h)}" target="_blank" rel="noopener">@${esc(h)}${p.location?" · "+esc(p.location):""}</a></div></div>
+    ${p.bio?`<p class="bio">${esc(p.bio)}</p>`:""}
+    ${p.categories?`<div class="cats">${p.categories.split(",").map(c=>c.trim()).filter(Boolean).map(c=>`<i>${esc(c)}</i>`).join("")}</div>`:""}
+    <div class="live">Live from Instagram${fetched?" · "+fetched:""}</div>
+    <div class="nums">
+      <div class="num lead"><div class="v">${compact(s.followers)}</div><div class="k">Followers</div></div>
+      <div class="num"><div class="v">${compact(s.avgViews)}</div><div class="k">Avg reel views</div></div>
+      <div class="num"><div class="v">${s.er?s.er+"%":"—"}</div><div class="k">Engagement rate</div></div>
+      <div class="num"><div class="v">${compact(s.reach28||s.avgReach)}</div><div class="k">${s.reach28?"Reach, last 28 days":"Avg reel reach"}</div></div></div>
+    ${(d.age?.length||gender.length||d.city?.length)?`<h2>Audience</h2><div class="aud">
+      ${d.age?.length?`<div><h4>Age</h4>${bars(d.age)}</div>`:""}${gender.length?`<div><h4>Gender</h4>${bars(gender)}</div>`:""}
+      ${d.city?.length?`<div><h4>Top cities</h4>${bars(d.city)}</div>`:""}${d.country?.length?`<div><h4>Top countries</h4>${bars(d.country)}</div>`:""}</div>`:""}
+    ${(s.top||[]).length?`<h2>Recent work</h2><div class="reels">${s.top.slice(0,3).map((r,i)=>`<a class="reel" href="${esc(r.permalink)}" target="_blank" rel="noopener" style="${r.thumb?`background-image:url(/api/img/${h}/${i})`:""}"><span><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>${compact(r.views||r.reach)}</span></a>`).join("")}</div>`:""}
+  </section>`;
+  const page2=`<section class="page">
+    ${pr&&pr.lines?.length?`<div class="prop"><h2 style="margin-top:0">Proposal</h2><p class="for">${k.brand?esc(k.brand)+" × ":""}@${esc(h)}</p>
+      <p class="forsub">${esc(k.focus||"")}</p>
+      ${pr.lines.map(l=>`<div class="ln"><span>${esc(l.label)}</span><b>${inr(l.amount)}</b></div>`).join("")}
+      ${(pr.adds||[]).map(a=>`<div class="ln sub"><span>${esc(a.label)}</span><b>${a.amount<0?"−":"+"}${inr(Math.abs(a.amount))}</b></div>`).join("")}
+      <div class="tot"><span>Total</span><b>${inr(pr.total)}</b></div>
+      ${pr.longTerm?`<div class="lt">Long-term: ${esc(pr.longTerm)}</div>`:""}
+      <div class="meta">${pr.timeline?`<div><small>Timeline</small>${esc(pr.timeline)}</div>`:""}${pr.terms?`<div><small>Payment</small>${esc(pr.terms)}</div>`:""}
+        ${pr.validity?`<div><small>Valid for</small>${esc(pr.validity)}</div>`:""}<div><small>Includes</small>${(pr.adds||[]).some(a=>/ad rights/i.test(a.label))?"Content + paid ad usage as listed":"Organic posting on my page"}</div></div></div>
+      <h2>Get in touch</h2>`:`<h2 style="margin-top:0">Get in touch</h2>`}
+    <div class="contact">${p.email?`<a href="mailto:${esc(p.email)}"><small>Email</small>${esc(p.email)}</a>`:""}
+      <a href="https://instagram.com/${esc(h)}" target="_blank" rel="noopener"><small>Instagram</small>@${esc(h)}</a>
+      ${p.website?`<a href="${esc(/^https?:/.test(p.website)?p.website:"https://"+p.website)}" target="_blank" rel="noopener"><small>Website</small>${esc(p.website.replace(/^https?:\/\//,""))}</a>`:(p.phone?`<div><small>Phone</small>${esc(p.phone)}</div>`:"")}</div>
+    <p class="foot">Numbers update daily from Instagram's official insights.</p>
+  </section>`;
+  $("#root").innerHTML=page1+page2;$("#dock").hidden=false;
+}
+
+function loadScript(src){return new Promise((ok,no)=>{const s=document.createElement("script");s.src=src;s.onload=ok;s.onerror=no;document.head.appendChild(s)})}
+async function pdf(){
+  const b=$("#dl");b.disabled=true;b.lastChild.textContent="Making PDF…";
+  try{
+    await Promise.all([window.html2canvas||loadScript("https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"),
+      window.jspdf||loadScript("https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js")]);
+    await document.fonts?.ready;document.body.classList.add("pdf");
+    const doc=new jspdf.jsPDF({unit:"pt",format:"a4",compress:true}),W=doc.internal.pageSize.getWidth(),H=doc.internal.pageSize.getHeight();
+    const pages=[...document.querySelectorAll(".page")];
+    for(let i=0;i<pages.length;i++){
+      const c=await html2canvas(pages[i],{scale:2,backgroundColor:"#ffffff",useCORS:true,logging:false});
+      let w=W,h=c.height*W/c.width;if(h>H){w=W*H/h;h=H}
+      if(i)doc.addPage();doc.addImage(c.toDataURL("image/jpeg",.92),"JPEG",(W-w)/2,0,w,h);
+    }
+    const name=`${(K.profile?.name||K.handle).replace(/\s+/g,"-")}-media-kit${K.brand?"-"+K.brand.replace(/\s+/g,"-"):""}.pdf`.toLowerCase().replace(/[^a-z0-9.-]/g,"");
+    doc.save(name);
+  }catch(e){window.print()}
+  document.body.classList.remove("pdf");b.disabled=false;b.lastChild.textContent="Download PDF";
+}
+$("#dl").addEventListener("click",pdf);
+$("#share").addEventListener("click",async()=>{const u=location.origin+location.pathname;
+  try{if(navigator.share)await navigator.share({title:document.title,url:u});else{await navigator.clipboard.writeText(u);$("#share").textContent="Link copied"}}catch{}});
+
+fetch("/api/kit/"+encodeURIComponent(slug)).then(r=>r.ok?r.json():Promise.reject()).then(k=>{K=k;render(k);
+  if(new URLSearchParams(location.search).get("pdf"))setTimeout(pdf,500)})
+ .catch(()=>{$("#root").innerHTML='<div class="state">This media kit link isn\'t available.</div>'});
+</script>
+</body>
+</html>
