@@ -1,4 +1,4 @@
-// Runs every morning: rotates Instagram tokens before they expire and pulls fresh stats
+// Runs twice a week (Mon + Thu): rotates Instagram tokens before they expire and pulls fresh stats
 // for every connected account, so the desk and every kit link always show current numbers.
 import { store } from "../lib/core.mjs";
 import { refreshAccount } from "../lib/ig.mjs";
@@ -17,5 +17,5 @@ export default async () => {
   return new Response("ok");
 };
 
-// 01:30 UTC = 7:00 IST
-export const config = { schedule: "30 1 * * *" };
+// 01:30 UTC = 7:00 IST, Mondays and Thursdays
+export const config = { schedule: "30 1 * * 1,4" };
