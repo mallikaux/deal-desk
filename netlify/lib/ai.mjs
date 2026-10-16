@@ -45,7 +45,7 @@ const READ_SCHEMA = {
     usage_months: { type: "NUMBER" }, usage_platforms: { type: "STRING" },
     exclusivity_months: { type: "NUMBER" }, whitelisting: { type: "BOOLEAN" },
     offer_type: { type: "STRING", enum: ["paid", "barter", "barter_plus_small_budget", "affiliate_or_credits", "unclear"] },
-    budget_inr: { type: "NUMBER" }, long_term: { type: "BOOLEAN" }, long_term_note: { type: "STRING" },
+    budget_inr: { type: "NUMBER" }, budget_usd: { type: "NUMBER" }, international: { type: "BOOLEAN" }, long_term: { type: "BOOLEAN" }, long_term_note: { type: "STRING" },
     asks_rates: { type: "BOOLEAN" }, asks_media_kit: { type: "BOOLEAN" }, asks_location: { type: "BOOLEAN" },
     asks_availability: { type: "BOOLEAN" }, asks_demographics: { type: "BOOLEAN" },
     timeline: { type: "STRING" }, payment_terms: { type: "STRING" },
@@ -61,7 +61,8 @@ Rules:
 - Deliverable types: ${TYPES.join(", ")}. "Collab reel"/"collab post"/"paid partnership reel" → reel_collab. "Non-collab reel" or just "reel" → reel. "Reshare story" or a single story → story (qty 1). "Multiple stories"/"story coverage" → story_set. Dedicated YouTube video → yt_dedicated; integrated/mention in a video → yt_integrated.
 - Ad rights / media rights / paid usage / boosting → usage_months (number; 0 if not asked; 12 for "perpetual").
 - Never invent numbers that are not in the message. Use 0 or empty strings when something isn't stated.
-- budget_inr: convert to rupees only if the message names a budget or amount for the creator.
+- budget_inr: rupees, only if the message names a budget in rupees. budget_usd: dollars, only if it names a budget in USD/$.
+- international: true if the brand or agency is based outside India, targets a non-Indian audience, or writes amounts in USD/EUR/GBP.
 - offer_type: barter if they offer only product/experience; affiliate_or_credits if they offer credits, plans, codes or commission instead of a fee.
 - red_flags: short notes the creator should notice (e.g. "barter only", "very low budget for ad rights", "TikTok isn't available in India", "45-day payment terms", "product non-returnable").
 - is_confirmation: true if this is an onboarding/confirmation email for an already agreed deal.
