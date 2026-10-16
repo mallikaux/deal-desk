@@ -1,6 +1,6 @@
 // Instagram API with Instagram Login (graph.instagram.com).
 // Works for Creator and Business accounts. Tokens are long-lived (60 days) and are
-// refreshed by the daily job, so a connection keeps working without logging in again.
+// refreshed by the twice-weekly job, so a connection keeps working without logging in again.
 import { env, store, handleOf } from "./core.mjs";
 
 const V = () => env("IG_API_VERSION", "v23.0");
