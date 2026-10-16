@@ -1,8 +1,15 @@
 // Shared helpers: storage, auth, responses.
 import { getStore } from "@netlify/blobs";
 
+// Exact key first; then ignore case, so "Desk_Password" still counts as DESK_PASSWORD.
 export const env = (k, d = "") => {
-  try { return (globalThis.Netlify?.env?.get(k) ?? process.env[k] ?? d) || d; } catch { return process.env[k] || d; }
+  try {
+    const v = globalThis.Netlify?.env?.get(k) ?? process.env[k];
+    if (v) return v;
+    const all = { ...process.env, ...(globalThis.Netlify?.env?.toObject?.() || {}) };
+    const kk = Object.keys(all).find((x) => x.toUpperCase() === k.toUpperCase());
+    return (kk && all[kk]) || d;
+  } catch { return process.env[k] || d; }
 };
 export const store = () => getStore({ name: "deal-desk", consistency: "strong" });
 
