@@ -98,13 +98,14 @@ body.pdf .dock{display:none}
 const $=s=>document.querySelector(s);
 const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const inr=v=>"₹"+Math.round(+v||0).toLocaleString("en-IN");
+let CUR="INR";const cm=v=>CUR==="USD"?"$"+Math.round(+v||0).toLocaleString("en-US"):inr(v);
 const compact=v=>{v=+v||0;if(!v)return "—";if(v>=1e7)return (v/1e7).toFixed(1).replace(/\.0$/,"")+"Cr";if(v>=1e5)return (v/1e5).toFixed(1).replace(/\.0$/,"")+"L";if(v>=1e3)return (v/1e3).toFixed(1).replace(/\.0$/,"")+"K";return String(v)};
 const slug=location.pathname.split("/").filter(Boolean).pop();
 let K=null;
 
 function bars(rows,map){return (rows||[]).slice(0,4).map(r=>`<div class="bar"><span>${esc(map?map(r.k):r.k)}</span><i><b style="width:${Math.max(3,r.pct)}%"></b></i><span>${r.pct}%</span></div>`).join("")}
 function render(k){
-  const p=k.profile||{},s=k.stats||{},h=k.handle,pr=k.proposal;
+  const p=k.profile||{},s=k.stats||{},h=k.handle,pr=k.proposal;CUR=pr?.currency==="USD"?"USD":"INR";
   document.documentElement.style.setProperty("--acc",p.accent||"#1FB955");
   document.title=(k.brand?`${p.name||"@"+h} × ${k.brand}`:(p.name||"@"+h))+" — media kit";
   const d=s.demo||{},gender=(d.gender||[]).map(g=>({...g,k:{F:"Women",M:"Men",U:"Other"}[g.k]||g.k}));
@@ -128,9 +129,9 @@ function render(k){
   const page2=`<section class="page">
     ${pr&&pr.lines?.length?`<div class="prop"><h2 style="margin-top:0">Proposal</h2><p class="for">${k.brand?esc(k.brand)+" × ":""}@${esc(h)}</p>
       <p class="forsub">${esc(k.focus||"")}</p>
-      ${pr.lines.map(l=>`<div class="ln"><span>${esc(l.label)}</span><b>${inr(l.amount)}</b></div>`).join("")}
-      ${(pr.adds||[]).map(a=>`<div class="ln sub"><span>${esc(a.label)}</span><b>${a.amount<0?"−":"+"}${inr(Math.abs(a.amount))}</b></div>`).join("")}
-      <div class="tot"><span>Total</span><b>${inr(pr.total)}</b></div>
+      ${pr.lines.map(l=>`<div class="ln"><span>${esc(l.label)}</span><b>${cm(l.amount)}</b></div>`).join("")}
+      ${(pr.adds||[]).map(a=>`<div class="ln sub"><span>${esc(a.label)}</span><b>${a.amount<0?"−":"+"}${cm(Math.abs(a.amount))}</b></div>`).join("")}
+      <div class="tot"><span>Total</span><b>${cm(pr.total)}</b></div>
       ${pr.longTerm?`<div class="lt">Long-term: ${esc(pr.longTerm)}</div>`:""}
       <div class="meta">${pr.timeline?`<div><small>Timeline</small>${esc(pr.timeline)}</div>`:""}${pr.terms?`<div><small>Payment</small>${esc(pr.terms)}</div>`:""}
         ${pr.validity?`<div><small>Valid for</small>${esc(pr.validity)}</div>`:""}<div><small>Includes</small>${(pr.adds||[]).some(a=>/ad rights/i.test(a.label))?"Content + paid ad usage as listed":"Organic posting on my page"}</div></div></div>
