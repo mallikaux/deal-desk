@@ -1,0 +1,8 @@
+{
+  "name": "deal-desk",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@netlify/blobs": "^11.1.4"
+  }
+}
