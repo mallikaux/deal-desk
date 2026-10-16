@@ -12,7 +12,8 @@ function cleanProfile(p, handle) {
   const o = { handle };
   for (const k of PROFILE_KEYS) o[k] = clean(p?.[k], k === "policies" || k === "bio" ? 1200 : 300);
   o.rates = {}; for (const k of RATE_KEYS) { const v = +p?.rates?.[k]; if (v > 0) o.rates[k] = Math.round(v); }
-  for (const k of ["usagePct", "exclusivityPct", "whitelistPct", "longTermPerVideo", "roundTo"]) { const v = +p?.[k]; o[k] = v >= 0 ? v : 0; }
+  o.intlRates = {}; for (const k of RATE_KEYS) { const v = +p?.intlRates?.[k]; if (v > 0) o.intlRates[k] = Math.round(v); }
+  for (const k of ["usagePct", "exclusivityPct", "whitelistPct", "longTermPerVideo", "roundTo", "intlDivisor"]) { const v = +p?.[k]; o[k] = v >= 0 ? v : 0; }
   o.examples = (Array.isArray(p?.examples) ? p.examples : []).slice(0, 12)
     .map((e) => ({ brand: clean(e?.brand, 4000), reply: clean(e?.reply, 3000) })).filter((e) => e.reply);
   return o;
@@ -37,7 +38,7 @@ async function state(s) {
   accounts.sort((x, y) => (x.handle > y.handle ? 1 : -1));
   const list = (await Promise.all(deals.blobs.map((b) => s.get(b.key, { type: "json" })))).filter(Boolean)
     .sort((a, b) => b.updated - a.updated).slice(0, 40)
-    .map((d) => ({ id: d.id, handle: d.handle, brand: d.read?.brand || "", summary: d.read?.summary || "", total: d.quote?.total || 0,
+    .map((d) => ({ id: d.id, handle: d.handle, brand: d.read?.brand || "", summary: d.read?.summary || "", total: d.quote?.total || 0, currency: d.quote?.currency || "INR",
       updated: d.updated, slug: d.slug, status: d.status || "draft" }));
   return { accounts, deals: list, config: { ai: !!env("GEMINI_API_KEY"), ig: !!(env("IG_APP_ID") && env("IG_APP_SECRET")) } };
 }
