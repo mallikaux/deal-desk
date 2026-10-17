@@ -43,7 +43,8 @@ h2{font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;c
 .aud{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
 @media(max-width:620px){.aud{grid-template-columns:1fr}}
 .aud h4{margin:0 0 8px;font-size:14px}
-.bar{display:grid;grid-template-columns:96px 1fr 44px;gap:10px;align-items:center;font-size:13px;margin-bottom:7px}
+.bar{display:grid;grid-template-columns:minmax(0,110px) 1fr 48px;gap:10px;align-items:center;font-size:13px;margin-bottom:7px}
+.bar span:first-child{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .bar i{height:9px;border-radius:99px;background:var(--soft);overflow:hidden;display:block}
 .bar i b{display:block;height:100%;border-radius:99px;background:var(--ink)}
 .bar span:last-child{text-align:right;color:var(--mut);font-variant-numeric:tabular-nums}
@@ -99,16 +100,21 @@ const $=s=>document.querySelector(s);
 const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const inr=v=>"₹"+Math.round(+v||0).toLocaleString("en-IN");
 let CUR="INR";const cm=v=>CUR==="USD"?"$"+Math.round(+v||0).toLocaleString("en-US"):inr(v);
-const compact=v=>{v=+v||0;if(!v)return "—";if(v>=1e7)return (v/1e7).toFixed(1).replace(/\.0$/,"")+"Cr";if(v>=1e5)return (v/1e5).toFixed(1).replace(/\.0$/,"")+"L";if(v>=1e3)return (v/1e3).toFixed(1).replace(/\.0$/,"")+"K";return String(v)};
+const compact=v=>{v=+v||0;if(!v)return "—";if(v>=1e6)return (v/1e6).toFixed(1).replace(/\.0$/,"")+"M";if(v>=1e3)return (v/1e3).toFixed(1).replace(/\.0$/,"")+"K";return String(Math.round(v))};
+// audience rows: short labels, bars scaled to the biggest value so small shares stay comparable
+const REG=(()=>{try{return new Intl.DisplayNames(["en"],{type:"region"})}catch{return null}})();
+const audLabel=(k,kind)=>{k=String(k||"");if(kind==="country"&&/^[A-Z]{2}$/.test(k))return REG?.of(k)||k;if(kind==="city")return k.split(",")[0];if(kind==="gender")return {F:"Women",M:"Men",U:"Not specified"}[k]||k;return k};
+const audBars=(rows,kind,n=5)=>{rows=(rows||[]).slice(0,n);const max=Math.max(...rows.map(r=>+r.pct||0),1);
+  return rows.map(r=>`<div class="bar" title="${esc(String(r.k))}"><span>${esc(audLabel(r.k,kind))}</span><i><b style="width:${Math.max(1.5,(+r.pct||0)/max*100)}%"></b></i><span>${(+r.pct||0).toFixed(1)}%</span></div>`).join("")};
 const slug=location.pathname.split("/").filter(Boolean).pop();
 let K=null;
 
-function bars(rows,map){return (rows||[]).slice(0,4).map(r=>`<div class="bar"><span>${esc(map?map(r.k):r.k)}</span><i><b style="width:${Math.max(3,r.pct)}%"></b></i><span>${r.pct}%</span></div>`).join("")}
+function bars(rows,kind){return audBars(rows,kind,4)}
 function render(k){
   const p=k.profile||{},s=k.stats||{},h=k.handle,pr=k.proposal;CUR=pr?.currency==="USD"?"USD":"INR";
   document.documentElement.style.setProperty("--acc",p.accent||"#1FB955");
   document.title=(k.brand?`${p.name||"@"+h} × ${k.brand}`:(p.name||"@"+h))+" — media kit";
-  const d=s.demo||{},gender=(d.gender||[]).map(g=>({...g,k:{F:"Women",M:"Men",U:"Other"}[g.k]||g.k}));
+  const d=s.demo||{},gender=d.gender||[];
   const fetched=s.fetched?new Date(s.fetched).toLocaleDateString("en-GB",{day:"numeric",month:"short",year:"numeric"}):"";
   const page1=`<section class="page">
     <div class="hero"><img class="av" src="/api/img/${h}/avatar" alt="" onerror="this.outerHTML='<div class=&quot;av init&quot;>${esc((p.name||h||"?")[0].toUpperCase())}</div>'">
@@ -122,8 +128,8 @@ function render(k){
       <div class="num"><div class="v">${s.er?s.er+"%":"—"}</div><div class="k">Engagement rate</div></div>
       <div class="num"><div class="v">${compact(s.reach28||s.avgReach)}</div><div class="k">${s.reach28?"Reach, last 28 days":"Avg reel reach"}</div></div></div>
     ${(d.age?.length||gender.length||d.city?.length)?`<h2>Audience</h2><div class="aud">
-      ${d.age?.length?`<div><h4>Age</h4>${bars(d.age)}</div>`:""}${gender.length?`<div><h4>Gender</h4>${bars(gender)}</div>`:""}
-      ${d.city?.length?`<div><h4>Top cities</h4>${bars(d.city)}</div>`:""}${d.country?.length?`<div><h4>Top countries</h4>${bars(d.country)}</div>`:""}</div>`:""}
+      ${d.age?.length?`<div><h4>Age</h4>${bars(d.age)}</div>`:""}${gender.length?`<div><h4>Gender</h4>${bars(gender,"gender")}</div>`:""}
+      ${d.city?.length?`<div><h4>Top cities</h4>${bars(d.city,"city")}</div>`:""}${d.country?.length?`<div><h4>Top countries</h4>${bars(d.country,"country")}</div>`:""}</div>`:""}
     ${(s.top||[]).length?`<h2>Recent work</h2><div class="reels">${s.top.slice(0,3).map((r,i)=>`<a class="reel" href="${esc(r.permalink)}" target="_blank" rel="noopener" style="${r.thumb?`background-image:url(/api/img/${h}/${i})`:""}"><span><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>${compact(r.views||r.reach)}</span></a>`).join("")}</div>`:""}
   </section>`;
   const page2=`<section class="page">
