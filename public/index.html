@@ -32,9 +32,23 @@ a{color:inherit}
 /* ---------- layout ---------- */
 .app{max-width:1120px;margin:0 auto;padding:calc(env(safe-area-inset-top) + 14px) 16px calc(env(safe-area-inset-bottom) + 110px)}
 .top{display:flex;align-items:center;gap:10px;margin-bottom:18px}
-.avatar{width:44px;height:44px;border-radius:50%;object-fit:cover;background:#DADCE0;flex:none;display:grid;place-items:center;font-family:var(--disp);font-weight:700;color:#fff;box-shadow:0 0 0 3px #fff}
+.avatar{width:40px;height:40px;border-radius:50%;object-fit:cover;background:#DADCE0;flex:none;display:grid;place-items:center;font-family:var(--disp);font-weight:700;color:#fff;box-shadow:0 0 0 2px #fff,var(--sh)}
 .acct{display:flex;align-items:center;gap:6px;height:40px;padding:0 12px 0 14px;min-width:0;max-width:46vw;border-radius:99px;background:var(--card);box-shadow:var(--sh);font-weight:600;font-size:14px}
-.acct svg{width:14px;height:14px;color:var(--mut);flex:none}
+.acct svg{width:14px;height:14px;color:var(--mut);flex:none;transition:transform .25s var(--out)}
+.acct[aria-expanded="true"] svg{transform:rotate(180deg)}
+.acctwrap{position:relative;min-width:0}
+.menu{position:absolute;top:calc(100% + 8px);left:0;z-index:60;min-width:240px;padding:6px;border-radius:20px;background:var(--card);
+  box-shadow:0 1px 2px rgba(14,15,17,.06),0 18px 40px -12px rgba(14,15,17,.28);transform-origin:top left;animation:menuIn .22s var(--out) both}
+@keyframes menuIn{from{opacity:0;transform:translateY(-4px) scale(.97)}}
+.menu button{border:0;background:none;display:flex;align-items:center;gap:10px;width:100%;min-height:52px;padding:6px 10px;border-radius:14px;text-align:left;font-size:14px}
+.menu button:hover,.menu button:focus-visible{background:var(--soft);outline:none}
+.menu .avatar,.menu .mav{width:34px;height:34px;box-shadow:none;font-size:14px}
+.menu .mt{flex:1;min-width:0;display:grid;gap:1px}
+.menu .mt b{font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.menu .mt small{color:var(--mut);font-size:12.5px}
+.menu .ck{width:18px;height:18px;color:var(--ink);flex:none}
+.menu hr{border:0;border-top:1px solid var(--line);margin:4px 8px}
+.menu .add .mav{display:grid;place-items:center;border-radius:50%;background:var(--soft);font-size:20px;color:var(--mut)}
 .acct span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .spacer{flex:1}
 .pillstat{display:flex;align-items:center;gap:9px;height:40px;padding:0 13px;flex:none;border-radius:99px;background:var(--green);color:#fff;font-weight:600;font-size:13.5px;
@@ -42,7 +56,7 @@ a{color:inherit}
 .pillstat span{display:inline-flex;align-items:center;gap:4px}
 .pillstat svg{width:14px;height:14px}
 .pillstat.off{background:var(--card);color:var(--mut);box-shadow:var(--sh)}
-@media(max-width:420px){.pillstat .erx{display:none}.top{gap:8px}.avatar{width:40px;height:40px}}
+@media(max-width:420px){.pillstat .erx{display:none}.top{gap:8px}}
 .iconbtn{width:40px;height:40px;border-radius:50%;background:var(--card);display:grid;place-items:center;box-shadow:var(--sh);flex:none}
 .iconbtn svg{width:18px;height:18px}
 
@@ -166,12 +180,14 @@ label{display:block;font-size:12.5px;font-weight:600;color:var(--mut);margin:0 0
 .stat.hero{background:var(--green);color:#fff}
 .stat.hero .k{color:rgba(255,255,255,.85)}
 .bars{display:grid;gap:9px}
-.bar{display:grid;grid-template-columns:92px 1fr 46px;gap:10px;align-items:center;font-size:13.5px}
-.bar i{display:block;height:10px;border-radius:99px;background:var(--soft);overflow:hidden}
+.bar{display:grid;grid-template-columns:minmax(0,118px) 1fr 50px;gap:12px;align-items:center;font-size:13.5px;min-height:20px}
+.bar span:first-child{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bar i{display:block;height:8px;border-radius:99px;background:var(--soft);overflow:hidden}
 .bar i b{display:block;height:100%;border-radius:99px;background:var(--ink);transform-origin:left;animation:grow .9s var(--out) both}
 @keyframes grow{from{transform:scaleX(0)}}
 .bar span:last-child{text-align:right;color:var(--mut);font-variant-numeric:tabular-nums}
 .reels{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+@media(min-width:900px){.reels{grid-template-columns:repeat(6,1fr)}}
 .reel{position:relative;aspect-ratio:9/14;border-radius:16px;background:#DDE0E4 center/cover;overflow:hidden;text-decoration:none}
 .reel span{position:absolute;left:8px;bottom:8px;display:inline-flex;align-items:center;gap:4px;height:24px;padding:0 8px;border-radius:99px;background:rgba(0,0,0,.55);color:#fff;font-size:12px;font-weight:600;backdrop-filter:blur(8px)}
 .reel span svg{width:11px;height:11px}
@@ -251,8 +267,9 @@ label{display:block;font-size:12.5px;font-weight:600;color:var(--mut);margin:0 0
 <main class="app hide" id="app">
   <header class="top">
     <span id="topAvWrap" style="display:contents"></span>
-    <button class="acct" id="acctBtn" aria-label="Switch account"><span id="acctName">@—</span>
+    <div class="acctwrap"><button class="acct" id="acctBtn" aria-haspopup="menu" aria-expanded="false" aria-label="Choose account"><span id="acctName">@—</span>
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></button>
+      <div class="menu" id="acctMenu" role="menu" hidden></div></div>
     <div class="spacer"></div>
     <div class="pillstat off" id="pillstat">Not connected</div>
   </header>
@@ -376,7 +393,12 @@ const usd=v=>"$"+Math.round(+v||0).toLocaleString("en-US");
 const money=(v,c)=>c==="USD"?usd(v):inr(v);
 const qcur=()=>D?.quote?.cur==="USD"?"USD":"INR";
 const cm=v=>money(v,qcur());
-const compact=v=>{v=+v||0;if(!v)return "—";if(v>=1e7)return (v/1e7).toFixed(1).replace(/\.0$/,"")+"Cr";if(v>=1e5)return (v/1e5).toFixed(1).replace(/\.0$/,"")+"L";if(v>=1e3)return (v/1e3).toFixed(1).replace(/\.0$/,"")+"K";return String(v)};
+const compact=v=>{v=+v||0;if(!v)return "—";if(v>=1e6)return (v/1e6).toFixed(1).replace(/\.0$/,"")+"M";if(v>=1e3)return (v/1e3).toFixed(1).replace(/\.0$/,"")+"K";return String(Math.round(v))};
+// audience rows: short labels, bars scaled to the biggest value so small shares stay comparable
+const REG=(()=>{try{return new Intl.DisplayNames(["en"],{type:"region"})}catch{return null}})();
+const audLabel=(k,kind)=>{k=String(k||"");if(kind==="country"&&/^[A-Z]{2}$/.test(k))return REG?.of(k)||k;if(kind==="city")return k.split(",")[0];if(kind==="gender")return {F:"Women",M:"Men",U:"Not specified"}[k]||k;return k};
+const audBars=(rows,kind,n=5)=>{rows=(rows||[]).slice(0,n);const max=Math.max(...rows.map(r=>+r.pct||0),1);
+  return rows.map(r=>`<div class="bar" title="${esc(String(r.k))}"><span>${esc(audLabel(r.k,kind))}</span><i><b style="width:${Math.max(1.5,(+r.pct||0)/max*100)}%"></b></i><span>${(+r.pct||0).toFixed(1)}%</span></div>`).join("")};
 const ago=t=>{if(!t)return "never";const m=Math.round((Date.now()-t)/6e4);if(m<1)return "just now";if(m<60)return m+"m ago";const h=Math.round(m/60);if(h<24)return h+"h ago";return Math.round(h/24)+"d ago"};
 function toast(m,ms=2600){const t=$("#toast");t.textContent=m;t.classList.add("on");clearTimeout(toast.t);toast.t=setTimeout(()=>t.classList.remove("on"),ms)}
 async function api(path,opt={}){
@@ -434,12 +456,26 @@ function renderTop(){
   const first=(a?.profile?.name||"").split(" ")[0];
   $("#hello").textContent=first?`Hey ${first}, got a brand message?`:"Paste a brand message";
 }
-$("#acctBtn").addEventListener("click",()=>{
-  if(!S.accounts.length){go("settings");return}
-  const i=S.accounts.findIndex(a=>a.handle===ACT);ACT=S.accounts[(i+1)%S.accounts.length].handle;ls.set("dd_acct",ACT);
-  renderTop();renderDesk();if($("#v-stats").classList.contains("on"))renderStats();if($("#v-settings").classList.contains("on"))renderSettings();
-  toast("Switched to @"+ACT);
+function closeMenu(){$("#acctMenu").hidden=true;$("#acctBtn").setAttribute("aria-expanded","false")}
+function openMenu(){
+  const m=$("#acctMenu");
+  m.innerHTML=S.accounts.map(a=>`<button role="menuitemradio" aria-checked="${a.handle===ACT}" data-h="${esc(a.handle)}">${avatarHTML(a)}
+    <span class="mt"><b>@${esc(a.handle)}</b><small>${a.stats?compact(a.stats.followers)+" followers":a.connected?"Fetching numbers…":"Not connected"}</small></span>
+    ${a.handle===ACT?'<svg class="ck" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>':""}</button>`).join("")+
+    `${S.accounts.length?"<hr>":""}<button role="menuitem" class="add" data-h="__new"><span class="mav">+</span><span class="mt"><b>Add an account</b></span></button>`;
+  m.hidden=false;$("#acctBtn").setAttribute("aria-expanded","true");m.querySelector('[aria-checked="true"],button')?.focus();
+}
+$("#acctBtn").addEventListener("click",e=>{e.stopPropagation();$("#acctMenu").hidden?openMenu():closeMenu()});
+$("#acctMenu").addEventListener("click",e=>{
+  const b=e.target.closest("[data-h]");if(!b)return;e.stopPropagation();closeMenu();
+  const h=b.dataset.h;
+  if(h==="__new"){SETT="";go("settings");renderSettings();return}
+  if(h===ACT)return;
+  ACT=h;ls.set("dd_acct",ACT);
+  renderTop();renderDesk();if($("#v-stats").classList.contains("on"))renderStats();if($("#v-settings").classList.contains("on")){SETT=ACT;renderSettings()}
 });
+document.addEventListener("click",e=>{if(!e.target.closest(".acctwrap"))closeMenu()});
+document.addEventListener("keydown",e=>{if(e.key==="Escape"&&!$("#acctMenu").hidden){closeMenu();$("#acctBtn").focus()}});
 function go(v){
   if(v==="new"){go("desk");setTimeout(()=>$("#msg").focus(),200);return}
   $$(".view").forEach(s=>s.classList.toggle("on",s.id==="v-"+v));
@@ -508,7 +544,7 @@ function quoteMath(q,p){
   if(q.excl>0){const pct=Math.min(60,(+p?.exclusivityPct||10)*q.excl)/100,a=sub*pct;run+=a;adds.push({label:`Exclusivity, ${q.excl} month${q.excl>1?"s":""}`,amount:a})}
   if(q.white){const a=sub*(+p?.whitelistPct||30)/100;run+=a;adds.push({label:"Whitelisting (ads from my handle)",amount:a})}
   if(q.disc>0){const a=run*Math.min(90,q.disc)/100;run-=a;adds.push({label:`Discount (${q.disc}%)`,amount:-a})}
-  const step=q.cur==="USD"?50:(+p?.roundTo||500);let total=step?Math.round(run/step)*step:Math.round(run);
+  const step=q.cur==="USD"?50:500;let total=step?Math.round(run/step)*step:Math.round(run);
   if(+q.override>0)total=+q.override;
   return {lines,sub,adds,total};
 }
@@ -705,7 +741,7 @@ function renderStats(){
     <a class="btn w" href="/api/ig/start">Connect Instagram</a>${S.config.ig?"":'<p class="hint">The Instagram app keys aren\'t set in Netlify yet.</p>'}</div>`;return}
   if(!st){box.innerHTML=`<div class="card"><div class="loading"><span class="spin"></span>No numbers yet.</div><button class="btn w" id="refreshNow">Fetch now</button>${a.lastError?`<p class="hint" style="color:var(--warn)">${esc(a.lastError)}</p>`:""}</div>`;return}
   $("#statsSub").textContent=`@${a.handle} · updated ${ago(st.fetched)} · averages from your last ${st.reelsCounted||0} reels`;
-  const bars=(rows)=>rows?.length?`<div class="bars">${rows.map(r=>`<div class="bar"><span>${esc(r.k)}</span><i><b style="width:${Math.max(3,r.pct)}%"></b></i><span>${r.pct}%</span></div>`).join("")}</div>`:'<p class="hint">Instagram shares this once you have 100+ followers.</p>';
+  const bars=(rows,kind)=>rows?.length?`<div class="bars">${audBars(rows,kind)}</div>`:'<p class="hint">Instagram shares this once you have 100+ followers.</p>';
   box.innerHTML=`<div class="stats">
     <div class="stat hero"><div class="v">${compact(st.followers)}</div><div class="k">Followers</div></div>
     <div class="stat"><div class="v">${compact(st.avgViews)}</div><div class="k">Avg reel views</div></div>
@@ -714,12 +750,12 @@ function renderStats(){
     <div class="stat"><div class="v">${compact(st.avgLikes)}</div><div class="k">Avg likes</div></div>
     <div class="stat"><div class="v">${compact(st.avgComments)}</div><div class="k">Avg comments</div></div>
     <div class="stat"><div class="v">${compact(st.avgSaves)}</div><div class="k">Avg saves</div></div>
-    <div class="stat"><div class="v">${compact(st.reach28)}</div><div class="k">Accounts reached, 28 days</div></div></div>
+    <div class="stat"><div class="v">${compact(st.reach28)}</div><div class="k">Reach, last 28 days</div></div></div>
    <div class="card" style="margin-top:12px"><h3>Best recent reels</h3><p class="cap">These go on your media kit.</p>
     <div class="reels">${(st.top||[]).slice(0,6).map((r,i)=>`<a class="reel" href="${esc(r.permalink)}" target="_blank" rel="noopener" style="${r.thumb?`background-image:url(/api/img/${a.handle}/${i})`:""}"><span><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>${compact(r.views||r.reach)}</span></a>`).join("")}</div></div>
    <div class="dealgrid" style="margin-top:12px"><div class="card"><h3>Audience age</h3>${bars(st.demo?.age)}</div>
-    <div class="card"><h3>Gender</h3>${bars((st.demo?.gender||[]).map(g=>({...g,k:{F:"Women",M:"Men",U:"Other"}[g.k]||g.k})))}</div>
-    <div class="card"><h3>Top cities</h3>${bars(st.demo?.city)}</div><div class="card"><h3>Top countries</h3>${bars(st.demo?.country)}</div></div>
+    <div class="card"><h3>Gender</h3>${bars(st.demo?.gender,"gender")}</div>
+    <div class="card"><h3>Top cities</h3>${bars(st.demo?.city,"city")}</div><div class="card"><h3>Top countries</h3>${bars(st.demo?.country,"country")}</div></div>
    <button class="btn line w" id="refreshNow" style="margin-top:12px">Refresh now</button>`;
 }
 document.addEventListener("click",async e=>{
@@ -761,8 +797,7 @@ function renderSettings(){
      <div class="f"><label>Ad rights, 1 mo %</label><input data-n="usagePct" value="${p.usagePct||25}" inputmode="numeric"></div>
      <div class="f"><label>Exclusivity / mo %</label><input data-n="exclusivityPct" value="${p.exclusivityPct||10}" inputmode="numeric"></div>
      <div class="f"><label>Whitelisting %</label><input data-n="whitelistPct" value="${p.whitelistPct||30}" inputmode="numeric"></div>
-     <div class="f"><label>Long-term, per video</label><div class="money"><input data-n="longTermPerVideo" value="${p.longTermPerVideo||""}" inputmode="numeric" placeholder="—"></div></div>
-     <div class="f"><label>Round totals to</label><div class="money"><input data-n="roundTo" value="${p.roundTo??500}" inputmode="numeric"></div></div></div></div>
+     <div class="f"><label>Long-term, per video</label><div class="money"><input data-n="longTermPerVideo" value="${p.longTermPerVideo||""}" inputmode="numeric" placeholder="—"></div></div></div></div>
    <div class="card usdmode"><h3>International rates</h3><p class="cap">In US dollars, used when you switch a deal to “$ International”. Leave blank and it's estimated from your other $ rates, or your ₹ rate ÷ ${p.intlDivisor||60}.</p>
     <div class="ratesgrid">${RATES.map(([k,l])=>`<div class="f"><label>${l}</label><div class="money"><input data-ir="${k}" value="${(p.intlRates||{})[k]||""}" inputmode="numeric" placeholder="—"></div></div>`).join("")}</div></div>
    <div class="card"><h3>Replies that worked</h3><p class="cap">Paste past brand messages and what you replied. New replies copy this voice.</p>
