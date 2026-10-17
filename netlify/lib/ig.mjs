@@ -102,7 +102,7 @@ export async function fetchStats(acc) {
 
   const top = [...reels].sort((a, b) => (b.views || b.reach || 0) - (a.views || a.reach || 0)).slice(0, 6);
   const thumbs = [];
-  for (const m of top.slice(0, 3)) thumbs.push(await imageData(m.thumbnail_url || m.media_url));
+  for (const m of top) thumbs.push(await imageData(m.thumbnail_url || m.media_url));
 
   return {
     fetched: Date.now(),
@@ -114,7 +114,7 @@ export async function fetchStats(acc) {
     demo,
     top: top.map((m, i) => ({
       permalink: m.permalink, caption: (m.caption || "").slice(0, 140), ts: m.timestamp,
-      views: m.views || 0, reach: m.reach || 0, likes: m.like_count || 0, comments: m.comments_count || 0, thumb: i < 3 ? !!thumbs[i] : false,
+      views: m.views || 0, reach: m.reach || 0, likes: m.like_count || 0, comments: m.comments_count || 0, thumb: !!thumbs[i],
     })),
     _images: { avatar: await imageData(me.profile_picture_url), thumbs },
   };
